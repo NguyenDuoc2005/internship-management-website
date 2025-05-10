@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import HeaderArea from '@/components/ui/Header/HeaderArea.vue'
 import AdminSidebar from '@/components/custom/Sidebar/AdminSidebar.vue'
+import MemberSidebar from '@/components/custom/Sidebar/MemberSidebar.vue';
 </script>
 
 <template>
   <!-- ===== Page Wrapper Start ===== -->
   <div class="flex h-screen overflow-hidden">
     <!-- ===== Sidebar Start ===== -->
-    <AdminSidebar />
+    <MemberSidebar />
     <!-- ===== Sidebar End ===== -->
 
     <!-- ===== Content Area Start ===== -->

@@ -17,8 +17,19 @@ export const routes: RouteRecordRaw[] = [
     component: () => import('@/pages/login/LoginGoogle.vue')
   },
   {
+    path: ROUTES_CONSTANTS.REGISTER_GOOGLE.path,
+    name: ROUTES_CONSTANTS.REGISTER_GOOGLE.name,
+    component: () => import('@/pages/login/RegisterGoogle.vue')
+  },
+  {
     path: '/',
     component: () => import('@/pages/login/Login.vue')
+  },
+   // đăng ký route
+   {
+    path: ROUTES_CONSTANTS.REGISTER.path,
+    name: ROUTES_CONSTANTS.REGISTER.name,
+    component: () => import('@/pages/login/Register.vue')
   },
   //  admin
   {
@@ -50,7 +61,18 @@ export const routes: RouteRecordRaw[] = [
           requiresAuth: true
         }
       },
-     
+     //intern
+      {
+        path: ROUTES_CONSTANTS.MANAGE.children.INTERN.name,
+        name: ROUTES_CONSTANTS.MANAGE.children.INTERN.path,
+        component: () => import('@/pages/manage/intern/Intern.vue'),
+      },
+      //meetings
+      {
+        path: ROUTES_CONSTANTS.MANAGE.children.MEETINGS.name,
+        name: ROUTES_CONSTANTS.MANAGE.children.MEETINGS.path,
+        component: () => import('@/pages/manage/meetings/Meetings.vue'),
+      },
     ]
   },
   //  member

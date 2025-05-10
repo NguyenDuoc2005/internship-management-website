@@ -112,7 +112,6 @@ public class SecurityConfig {
                 .permitAll());
         http.authorizeHttpRequests(
                 auth -> auth.requestMatchers(
-//                                "/ws/**",
                                 "/auth/**",
                                 Helper.appendWildcard(MappingConstants.API_AUTH_PREFIX),
                                 "/oauth2/**"
@@ -120,7 +119,6 @@ public class SecurityConfig {
                         .permitAll()
         );
 
-        // API  author
         http.authorizeHttpRequests(
                 auth -> auth
                         .requestMatchers(Helper.appendWildcard(MappingConstants.API_ADMIN_PREFIX)).hasAnyAuthority(Role.ADMIN.name())
@@ -128,7 +126,6 @@ public class SecurityConfig {
                         .requestMatchers(Helper.appendWildcard(MappingConstants.API_MEMBER_PREFIX)).hasAnyAuthority(Role.THANH_VIEN.name())
         );
 
-        // Chặn APIS ko định nghĩa
         http.authorizeHttpRequests(auth -> auth.anyRequest().permitAll());
         http.oauth2Login(
                 oauth2 -> oauth2.authorizationEndpoint(a -> a.baseUri("/oauth2/authorize"))
@@ -140,5 +137,4 @@ public class SecurityConfig {
         http.addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
-
 }

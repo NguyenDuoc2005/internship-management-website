@@ -48,6 +48,10 @@ public class HttpCookieOAuth2AuthorizationRequestRepository implements Authoriza
         if (StringUtils.isNotBlank(screenForRole)) {
             CookieUtils.addCookie(response, OAuth2Constant.SCREEN_FOR_ROLE_COOKIE_NAME, screenForRole, cookieExpireSeconds);
         }
+        String register = request.getParameter(OAuth2Constant.REGISTER_PARAM_COOKIE_NAME);
+        if (StringUtils.isNotBlank(register) ) {
+            CookieUtils.addCookie(response, OAuth2Constant.REGISTER_PARAM_COOKIE_NAME, register, cookieExpireSeconds);
+        }
     }
 
     @Override

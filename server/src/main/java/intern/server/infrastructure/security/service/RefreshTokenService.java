@@ -36,7 +36,7 @@ public class RefreshTokenService {
     }
 
     public RefreshToken createRefreshToken(Authentication authentication) {
-        // thông tin user đã login
+
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
 
         Optional<User> staff = userAuthRepository.findByEmail(userPrincipal.getEmail());

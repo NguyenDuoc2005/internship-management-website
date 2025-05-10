@@ -40,7 +40,7 @@ onMounted(() => {
       router.push({ name: ROUTES_CONSTANTS.ADMIN.children.ADMIN.name })
       return
     } else if (user.rolesCodes.includes(ROLES.MANAGE) && user.roleScreen === ROLES.MANAGE) {
-      router.push({ name: ROUTES_CONSTANTS.MANAGE.children.MANAGE.name })
+      router.push({ name: ROUTES_CONSTANTS.MANAGE.children.INTERN.name })
       return
     }
     router.push({ name: ROUTES_CONSTANTS.MEMBER.children.MEMBER.name })

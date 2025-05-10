@@ -36,19 +36,16 @@ public class TokenProvider {
     @Setter(onMethod_ = @Autowired)
     private HttpServletRequest httpServletRequest;
 
-    // Phương thức tạo token đơn giản hơn chỉ với email
     public String createToken(Authentication authentication) {
-        // Lấy thông tin người dùng từ Authentication
+
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
 
         String email = userPrincipal.getEmail();
 
-        // Kiểm tra xem người dùng có tồn tại trong cơ sở dữ liệu không
         Optional<User> user = userAuthRepository.findByEmail(email);
         if (user.isEmpty()) {
             new ResponseObject<>(null, HttpStatus.NOT_FOUND,"Tài khoản khong ton tai");
         }
-        // Lấy các role từ UserRole liên kết với User
 
         List<String> rolesCode = roleAuthRepository.findRoleByUserId(user.get().getId());
 
@@ -98,14 +95,11 @@ public class TokenProvider {
                 .parseClaimsJws(token)
                 .getBody();
     }
-
-    // Lấy UserId từ token
     public String getUserIdFromToken(String token) {
         Claims claims = getClaimsToken(token);
         return claims.getSubject();
     }
 
-    // Lấy Email từ token
     public String getEmailFromToken(String token) {
         Claims claims = getClaimsToken(token);
         return claims.get("email", String.class);

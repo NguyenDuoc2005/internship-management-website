@@ -59,11 +59,11 @@ const menuItems = ref([
     <!-- SIDEBAR HEADER -->
     <div class="flex items-center justify-between px-4 py-4 bg-white">
       <img
-        src="../../../assets/images/logo-udpm-dark.png"
+        src="https://tse3.mm.bing.net/th?id=OIP.uBl7Oscns-55Q3eNpTijBQHaHa&pid=Api&P=0&h=180"
         alt="Logo"
         class="transition-all duration-300"
         :class="{ hidden: isCollapsed }"
-        style="width: 180px; height: auto"
+        style="width: 120px; height: auto"
       />
       <!-- Collapse/Expand button -->
       <button
@@ -118,7 +118,7 @@ const menuItems = ref([
                 v-html="menuItem.icon"
                 class="w-6 h-6"
                 :class="{
-                  'text-yellow-500': route.name === menuItem.routeName,
+                  'text-green-500': route.name === menuItem.routeName,
                   'text-gray-400': route.name !== menuItem.routeName
                 }"
               ></span>

@@ -37,8 +37,8 @@ const menuItems = ref([
     }">
     <!-- SIDEBAR HEADER -->
     <div class="flex items-center justify-between px-4 py-4 bg-white">
-      <img src="../../../assets/images/logo-udpm-dark.png" alt="Logo" class="transition-all duration-300"
-        :class="{ hidden: isCollapsed }" style="width: 180px; height: auto;" />
+      <img src="https://tse3.mm.bing.net/th?id=OIP.uBl7Oscns-55Q3eNpTijBQHaHa&pid=Api&P=0&h=180" alt="Logo" class="transition-all duration-300"
+        :class="{ hidden: isCollapsed }" style="width: 120px; height: auto;" />
       <!-- Collapse/Expand button -->
       <button v-if="!isMobileMenuOpen" @click="isCollapsed = !isCollapsed"
         class="hidden lg:flex items-center justify-center w-8 h-8 rounded-full hover:bg-gray-300">
@@ -70,7 +70,7 @@ const menuItems = ref([
 
               <!-- ICON -->
               <span v-html="menuItem.icon" class="w-6 h-6" :class="{
-                'text-yellow-500': route.name === menuItem.routeName,
+                'text-green-500': route.name === menuItem.routeName,
                 'text-gray-400': route.name !== menuItem.routeName
               }"></span>
 

@@ -1,7 +1,7 @@
 import Member from '@/pages/member/member.vue'
 import { Components } from 'ant-design-vue/es/date-picker/generatePicker'
 
-export const  ROUTES_CONSTANTS = {
+export const ROUTES_CONSTANTS = {
   LOGIN: {
     path: '/login',
     name: 'login'
@@ -10,7 +10,14 @@ export const  ROUTES_CONSTANTS = {
     path: '/login-google',
     name: 'login-google'
   },
-
+  REGISTER: {
+    path: '/register',
+    name: 'register'
+  },
+  REGISTER_GOOGLE: {
+    path: '/register-google',
+    name: 'register-google'
+  },
   // ADMIN
   ADMIN: {
     path: '/admin',
@@ -20,7 +27,7 @@ export const  ROUTES_CONSTANTS = {
         path: 'admin',
         name: 'admin'
       },
-   
+
     }
   },
   // MANAGE
@@ -32,7 +39,14 @@ export const  ROUTES_CONSTANTS = {
         path: 'mn',
         name: 'mn'
       },
-    
+      INTERN: {
+        path: 'intern',
+        name: 'intern'
+      },
+      MEETINGS: {
+        path: 'meetings',
+        name: 'meetings'
+      },
     }
   },
   // MEMBER
@@ -43,7 +57,7 @@ export const  ROUTES_CONSTANTS = {
       MEMBER: {
         path: 'mb',
         name: 'mb'
-      }    
+      }
     }
   },
   FORBIDDEN: {

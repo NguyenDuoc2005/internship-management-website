@@ -21,7 +21,7 @@ export const useAuthStore = defineStore('auth', () => {
   const refreshToken = ref<string | null>(localStorageAction.get(REFRESH_TOKEN_STORAGE_KEY) || null)
 
   const isAuthenticated = computed(() => accessToken.value !== null)
-
+  
   const login = (tokenData: authenticationData) => {
     const userData = tokenData.user
     user.value = userData

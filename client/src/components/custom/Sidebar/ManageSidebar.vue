@@ -12,7 +12,12 @@ const menuItems = ref([
   {
     icon: `<svg class="fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="18" height="18"><path d="M64 32C46.3 32 32 46.3 32 64v240v48v80c0 26.5 21.5 48 48 48h416c26.5 0 48-21.5 48-48V256V104.2c0-18.2-19.4-29.7-35.4-21.1L352 215.4v-63.2c0-18.2-19.4-29.7-35.4-21.1L160 215.4V64c0-17.7-14.3-32-32-32H64z"/></svg>`,
     label: 'Quản lý thực tập ',
-    routeName: ROUTES_CONSTANTS.MANAGE.children.MANAGE.name,
+    routeName: ROUTES_CONSTANTS.MANAGE.children.INTERN.name,
+  },
+  {
+    icon: `<svg class="fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="18" height="18"><path d="M64 32C46.3 32 32 46.3 32 64v240v48v80c0 26.5 21.5 48 48 48h416c26.5 0 48-21.5 48-48V256V104.2c0-18.2-19.4-29.7-35.4-21.1L352 215.4v-63.2c0-18.2-19.4-29.7-35.4-21.1L160 215.4V64c0-17.7-14.3-32-32-32H64z"/></svg>`,
+    label: 'Quản lý cuộc họp',
+    routeName: ROUTES_CONSTANTS.MANAGE.children.MEETINGS.name,
   },
 ])
 </script>
@@ -37,8 +42,8 @@ const menuItems = ref([
     }">
     <!-- SIDEBAR HEADER -->
     <div class="flex items-center justify-between px-4 py-4 bg-white">
-      <img src="../../../assets/images/logo-udpm-dark.png" alt="Logo" class="transition-all duration-300"
-        :class="{ hidden: isCollapsed }" style="width: 180px; height: auto;" />
+      <img src="https://tse3.mm.bing.net/th?id=OIP.uBl7Oscns-55Q3eNpTijBQHaHa&pid=Api&P=0&h=180" alt="Logo" class="transition-all duration-300"
+        :class="{ hidden: isCollapsed }" style="width: 120px; height: auto;" />
       <!-- Collapse/Expand button -->
       <button v-if="!isMobileMenuOpen" @click="isCollapsed = !isCollapsed"
         class="hidden lg:flex items-center justify-center w-10 h-10 rounded-full hover:bg-gray-300">
@@ -70,7 +75,7 @@ const menuItems = ref([
 
               <!-- ICON -->
               <span v-html="menuItem.icon" class="w-6 h-6" :class="{
-                'text-yellow-500': route.name === menuItem.routeName,
+                'text-green-500': route.name === menuItem.routeName,
                 'text-gray-400': route.name !== menuItem.routeName
               }"></span>
 

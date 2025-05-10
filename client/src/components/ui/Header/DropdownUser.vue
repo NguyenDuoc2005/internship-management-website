@@ -2,11 +2,13 @@
 import { ROLES } from '@/constants/roles';
 import { useAuthStore } from '@/stores/auth';
 import { UserInformation } from '@/types/auth.type';
-import { UserOutlined, LogoutOutlined, IdcardOutlined } from '@ant-design/icons-vue';
+import { UserOutlined, LogoutOutlined } from '@ant-design/icons-vue';
 import { computed, onMounted, reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { Dropdown, Menu, Avatar, Space } from 'ant-design-vue';
 import ModalProfile from './ModalProfile.vue';
+import { localStorageAction } from '@/utils/storage';
+import { ACCESS_TOKEN_STORAGE_KEY, REFRESH_TOKEN_STORAGE_KEY, USER_INFO_STORAGE_KEY } from '@/constants/storagekey';
 
 const props = defineProps({
   isNoSidebarPage: Boolean
@@ -38,7 +40,11 @@ onMounted(() => {
 });
 
 const handleLogout = () => {
-  userAuthStore.logout();
+  // userAuthStore.logout();
+  localStorageAction.remove(USER_INFO_STORAGE_KEY)
+    localStorageAction.remove(ACCESS_TOKEN_STORAGE_KEY)
+    localStorageAction.remove(REFRESH_TOKEN_STORAGE_KEY)
+    
   router.push({ name: 'login' });
 };
 
@@ -70,9 +76,9 @@ const showRoleUser = computed(() => {
         <Menu.Item>
           <UserOutlined /> Vai trò: {{ showRoleUser }}
         </Menu.Item>
-        <Menu.Item @click="showProfileModal">
+        <!-- <Menu.Item @click="showProfileModal">
           <IdcardOutlined /> Thông tin cá nhân
-        </Menu.Item>
+        </Menu.Item> -->
         <Menu.Item @click="handleLogout">
           <LogoutOutlined /> Đăng xuất
         </Menu.Item>
