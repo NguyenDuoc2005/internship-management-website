@@ -53,7 +53,6 @@ public class AuthController {
         }
     }
 
-
     @PutMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
         return Helper.createResponseEntity(authService.register(request));

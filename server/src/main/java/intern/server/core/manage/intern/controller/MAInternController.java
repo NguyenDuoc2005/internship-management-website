@@ -1,13 +1,11 @@
 package intern.server.core.manage.intern.controller;
 
-import intern.server.core.common.base.ResponseObject;
 import intern.server.core.manage.intern.dto.request.MACreateUpdateInternRequest;
 import intern.server.core.manage.intern.dto.request.MAInternRequest;
 import intern.server.core.manage.intern.service.MAInternService;
 import intern.server.infrastructure.constant.MappingConstants;
 import intern.server.utils.Helper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +16,7 @@ public class MAInternController {
 
     private final MAInternService maInternService;
 
-    @GetMapping("")
+    @GetMapping()
     public ResponseEntity<?> get(MAInternRequest request) {
         return Helper.createResponseEntity(maInternService.getAllIntern(request));
     }
