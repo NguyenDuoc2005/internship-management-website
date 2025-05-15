@@ -1,6 +1,7 @@
 package intern.server.core.manage.meetings.dto.request;
 
 import intern.server.core.common.base.PageableRequest;
+import intern.server.infrastructure.constant.EntityStatus;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,6 +9,6 @@ import lombok.Setter;
 @Setter
 public class MAMeetingsRequest extends PageableRequest {
 
-    private Integer status;
+    private EntityStatus status;
 
 }

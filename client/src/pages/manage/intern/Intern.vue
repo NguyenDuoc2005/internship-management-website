@@ -1,5 +1,5 @@
 <template>
-    <DivCustom label="Quản lý thực tập sinh">
+    <BreadcrumbDefault label="Quản lý thực tập sinh">
         <InternFilter
             :searchQuery="state.searchQuery"
             @update:searchQuery="updateSearchQuery"
@@ -17,7 +17,7 @@
             @page-change="handlePageChange"
             @update-status="handleUpdateStatusClick"
         />
-    </DivCustom>
+    </BreadcrumbDefault>
 
     <InternModal
         :open="state.isModalOpen"
@@ -44,6 +44,7 @@ import {
     getAllInterns,
     ParamsGetIntern
 } from '@/services/api/intern.api'
+import BreadcrumbDefault from '@/components/custom/Div/BreadcrumbDefault.vue'
 
 const state = reactive({
     searchQuery: '',

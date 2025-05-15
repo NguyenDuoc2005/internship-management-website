@@ -5,35 +5,36 @@ const props = defineProps({
   label: String
 })
 </script>
-
+  
 <template>
   <div
-    class="col-span-12 shadow p-4 rounded border border-stroke bg-white px-10 pt-10 pb-10 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-8"
-    :class="props.customClasses"
-  >
-    <div class="flex items-center justify-between mb-3">
-      <div class="flex items-center gap-2">
-        <!-- 🖼️ Slot icon -->
-        <span class="text-black text-xl">
+    class="col-span-12 shadow rounded-md border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark xl:col-span-8"
+    :class="props.customClasses">
+    <!-- 🔹 Thanh tiêu đề -->
+    <div v-if="props.label"
+      class=" bg-[#d1fae5] text-gray-700 dark:bg-strokedark dark:text-white px-5 py-3 rounded-t-md text-base font-semibold border-b border-stroke dark:border-strokedark"
+      :class="props.customClassesLabel">
+      <div class="flex items-center gap-2 leading-none">
+        <div class="text-lg flex items-center">
           <slot name="icon" />
-        </span>
-        <!-- 🏷️ Label -->
-        <h1
-          v-if="props.label"
-          class="text-xl font-bold text-graydark"
-          :class="props.customClassesLabel"
-        >
+        </div>
+        <span class="text-base font-semibold mt-0.5">
           {{ props.label }}
-        </h1>
-      </div>
-
-      <!-- 👉 Slot extra content -->
-      <div>
-        <slot name="extra" />
+        </span>
       </div>
     </div>
+    <!-- bg-[#dbded8],  -->
 
-    <!-- 📄 Main content -->
-    <slot />
+
+    <!-- 🔳 Nội dung chính -->
+    <div class="px-10 pt-6 pb-10 sm:px-7.5">
+      <!-- 👉 Slot extra content -->
+      <div class="flex justify-end mb-3">
+        <slot name="extra" />
+      </div>
+
+      <!-- 📄 Main content -->
+      <slot />
+    </div>
   </div>
 </template>
