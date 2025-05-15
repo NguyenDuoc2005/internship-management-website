@@ -106,6 +106,7 @@ public class MAInternServiceImpl implements MAInternService {
         return maUserRepository.getAllUsersById(internId)
                 .map(subject -> new ResponseObject<>(subject, HttpStatus.OK, "Get category successfully"))
                 .orElseGet(() -> new ResponseObject<>(null, HttpStatus.NOT_FOUND, "Category not found"));
+
     }
 
 }
