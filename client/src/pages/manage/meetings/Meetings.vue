@@ -1,15 +1,15 @@
 <template>
-    <DivCustom label="Quản lý thực tập sinh">
-        <InternFilter
+    <BreadcrumbDefault label="Quản lý cuộc họp">
+        <MeetingFilter
             :searchQuery="state.searchQuery"
             @update:searchQuery="updateSearchQuery"
-            :searchStatus="state.internStatus"
+            :searchStatus="state.meetingStatus"
             @update:searchStatus="updateSearchStatus"
         />
 
-        <InternTable
+        <MeetingsTable
             :searchQuery="state.searchQuery"
-            :interns="state.interns"
+            :meetings="state.meetings"
             :paginationParams="state.paginationParams"
             :totalItems="state.totalItems"
             @add="openAddModal"
@@ -17,14 +17,14 @@
             @page-change="handlePageChange"
             @update-status="handleUpdateStatusClick"
         />
-    </DivCustom>
+    </BreadcrumbDefault>
 
-    <InternModal
+    <MeetingsModal
         :open="state.isModalOpen"
-        :internId="state.id"
-        :title="state.id ? 'Cập nhật thực tập sinh' : 'Thêm mới thực tập sinh'"
+        :meetingId="state.id"
+        :title="state.id ? 'Cập nhật cuộc họp' : 'Thêm mới cuộc họp'"
         @close="closeModal"
-        @success="fetchInterns"
+        @success="fetchMeetings"
     />
 </template>
 
@@ -34,46 +34,43 @@ import { debounce } from 'lodash'
 import { toast } from 'vue3-toastify'
 
 import DivCustom from '@/components/custom/Div/DivCustom.vue'
-import InternFilter from './MeetingFilter.vue'
-import InternTable from './MeetingsTable.vue'
-import InternModal from './MeetingsModal.vue'
 
-import {
-    InternResponse,
-    changeStatusIntern,
-    getAllInterns,
-    ParamsGetIntern
-} from '@/services/api/intern.api'
+
+import MeetingFilter from './MeetingFilter.vue'
+import MeetingsTable from './MeetingsTable.vue'
+import MeetingsModal from './MeetingsModal.vue'
+import { changeStatusMeeting, getAllMeetings, MAMeetingResponse, ParamsGetMeeting } from '@/services/api/meetings.api'
+import BreadcrumbDefault from '@/components/custom/Div/BreadcrumbDefault.vue'
 
 const state = reactive({
     searchQuery: '',
-    internStatus: null as number | null,
+    meetingStatus: null as string | null,
     isModalOpen: false,
     id: null as string | null,
-    interns: [] as InternResponse[],
+    meetings: [] as MAMeetingResponse[],
     paginationParams: { page: 1, size: 10 },
     totalItems: 0
 })
 
-const fetchInterns = async () => {
+const fetchMeetings = async () => {
     try {
-        const params: ParamsGetIntern = {
+        const params: ParamsGetMeeting = {
             page: state.paginationParams.page,
             size: state.paginationParams.size,
-            internName: state.searchQuery || '',
-            internStatus: state.internStatus ?? undefined
+            q: state.searchQuery || '',
+            status: state.meetingStatus ?? undefined
         }
 
-        const response = await getAllInterns(params)
-        state.interns = response?.data?.data || []
+        const response = await getAllMeetings(params)
+        state.meetings = response?.data?.data || []
         state.totalItems = response?.data?.totalElements || 0
         console.log(response.data)
     } catch (error) {
-        console.error('Lỗi khi tải danh sách thực tập sinh:', error)
+        console.error('Lỗi khi tải danh sách cuộc họp:', error)
     }
 }
 
-onMounted(fetchInterns)
+onMounted(fetchMeetings)
 
 const openAddModal = () => {
     state.id = null
@@ -94,38 +91,38 @@ const handlePageChange = ({ page, pageSize }: { page: number; pageSize?: number 
     if (pageSize) {
         state.paginationParams.size = pageSize
     }
-    fetchInterns()
+    fetchMeetings()
 }
 
 const handleUpdateStatus = async (id: string) => {
     try {
-        await changeStatusIntern(id)
+        await changeStatusMeeting(id)
         toast.success('Cập nhật trạng thái thành công!')
-        fetchInterns()
+        fetchMeetings()
     } catch (error) {
         toast.error('Cập nhật trạng thái thất bại!')
     }
 }
 
-const debouncedFetchInterns = debounce(fetchInterns, 500)
+const debouncedFetchMeetings = debounce(fetchMeetings, 500)
 
 const updateSearchQuery = (newQuery: string) => {
     state.searchQuery = newQuery.trim()
 }
 
-const updateSearchStatus = (newStatus: number) => {
-    state.internStatus = newStatus
+const updateSearchStatus = (newStatus: string) => {
+    state.meetingStatus = newStatus
 }
 
 // Theo dõi sự thay đổi của bộ lọc
 watch(() => state.searchQuery, () => {
     state.paginationParams.page = 1
-    debouncedFetchInterns()
+    debouncedFetchMeetings()
 })
 
-watch(() => state.internStatus, () => {
+watch(() => state.meetingStatus, () => {
     state.paginationParams.page = 1
-    debouncedFetchInterns()
+    debouncedFetchMeetings()
 })
 
 const handleUpdateStatusClick = (id: string) => {

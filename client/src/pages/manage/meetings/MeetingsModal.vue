@@ -13,82 +13,90 @@
     </template>
 
     <a-form
-      :model="intern"
-      ref="internForm"
-      name="internForm"
+      :model="meetings"
+      ref="meetingsForm"
+      name="meetingsForm"
       autocomplete="off"
       :label-col="{ span: 6 }"
       :wrapper-col="{ span: 18 }"
     >
-      <a-form-item label="Tên đăng nhập" name="userName" :rules="rules.userName">
-        <a-input v-model:value="intern.userName" />
+      <a-form-item label="Mã cuộc họp" name="code" :rules="rules.code">
+        <a-input v-model:value="meetings.code" />
       </a-form-item>
 
-      <a-form-item label="Email" name="email" :rules="rules.email">
-        <a-input v-model:value="intern.email" />
+      <a-form-item label="Tiêu đề" name="title" :rules="rules.title">
+        <a-input v-model:value="meetings.title" />
       </a-form-item>
 
-      <a-form-item label="Ảnh đại diện" name="picture" :rules="rules.picture">
-        <a-input v-model:value="intern.picture" />
+      <a-form-item label="Nội dung" name="content" :rules="rules.content">
+        <a-textarea v-model:value="meetings.content" />
       </a-form-item>
 
-      <a-form-item label="Số điện thoại" name="phoneNumber" :rules="rules.phoneNumber">
-        <a-input v-model:value="intern.phoneNumber" />
+      <a-form-item label="Địa điểm" name="location" :rules="rules.location">
+        <a-input v-model:value="meetings.location" />
       </a-form-item>
 
-      <a-form-item label="Địa chỉ" name="address" :rules="rules.address">
-        <a-input v-model:value="intern.address" />
+      <a-form-item label="Thời gian bắt đầu" name="startTime" :rules="rules.startTime">
+        <a-date-picker v-model:value="meetings.startTime" show-time format="YYYY-MM-DD HH:mm:ss" style="width: 100%;" />
       </a-form-item>
 
-      <a-form-item label="Chuyên ngành" name="major" :rules="rules.major">
-        <a-input v-model:value="intern.major" />
+      <a-form-item label="Thời gian kết thúc" name="endTime" :rules="rules.endTime">
+        <a-date-picker v-model:value="meetings.endTime" show-time format="YYYY-MM-DD HH:mm:ss" style="width: 100%;" />
+      </a-form-item>
+
+      <a-form-item label="Link họp" name="link" :rules="rules.link">
+        <a-input v-model:value="meetings.link" />
       </a-form-item>
     </a-form>
   </a-modal>
 </template>
 
 <script setup lang="ts">
-import { ref, watch, defineProps, defineEmits, nextTick } from 'vue'
-import { createIntern, getByIdIntern, updateIntern } from '@/services/api/intern.api'
+import { ref, watch, defineProps, defineEmits } from 'vue'
+import dayjs from 'dayjs'
 import { toast } from 'vue3-toastify'
+import { createMeetings, getMeetingsById, updateMeetings } from '@/services/api/meetings.api';
 
-const props = defineProps<{ open: boolean; internId: string | null; title: string }>()
+const props = defineProps<{ open: boolean; meetingId: string | null; title: string }>()
 const emit = defineEmits(['close', 'success'])
 
-const intern = ref({
-  userName: '',
-  email: '',
-  picture: '',
-  phoneNumber: '',
-  address: '',
-  major: ''
+const meetings = ref({
+  code: '',
+  title: '',
+  content: '',
+  location: '',
+  startTime: null as any,
+  endTime: null as any,
+  link: ''
 })
 
-const internForm = ref()
+const meetingsForm = ref()
 
 const rules = {
-  userName: [{ required: true, message: 'Tên đăng nhập không được để trống!' }],
-  email: [{ required: true, message: 'Email không được để trống!' }],
-  picture: [{ required: true, message: 'Ảnh đại diện không được để trống!' }],
-  phoneNumber: [{ required: true, message: 'Số điện thoại không được để trống!' }],
-  address: [{ required: true, message: 'Địa chỉ không được để trống!' }],
-  major: [{ required: true, message: 'Chuyên ngành không được để trống!' }]
+  code: [{ required: true, message: 'Mã cuộc họp không được để trống!' }],
+  title: [{ required: true, message: 'Tiêu đề không được để trống!' }],
+  content: [{ required: true, message: 'Nội dung không được để trống!' }],
+  location: [{ required: true, message: 'Địa điểm không được để trống!' }],
+  startTime: [{ required: true, message: 'Thời gian bắt đầu không được để trống!' }],
+  endTime: [{ required: true, message: 'Thời gian kết thúc không được để trống!' }],
+  link: [{ required: true, message: 'Link họp không được để trống!' }]
 }
 
-const fetchInternDetails = async (id: string) => {
+const fetchMeetingDetails = async (id: string) => {
   try {
-    const response = await getByIdIntern(id)
-    intern.value = {
-      userName: response.data.userName,
-      email: response.data.email,
-      picture: response.data.picture,
-      phoneNumber: response.data.phoneNumber,
-      address: response.data.address,
-      major: response.data.major
+    const response = await getMeetingsById(id)
+    const data = response.data
+    meetings.value = {
+      code: data.code,
+      title: data.title,
+      content: data.content,
+      location: data.location,
+      startTime: dayjs(data.startTime),
+      endTime: dayjs(data.endTime),
+      link: data.link
     }
-    console.log(intern.value)
   } catch (error) {
-    console.error('Lỗi khi lấy thông tin thực tập sinh:', error)
+    console.error('Lỗi khi lấy thông tin cuộc họp:', error)
   }
 }
 
@@ -96,11 +104,10 @@ watch(
   () => props.open,
   async (newVal) => {
     if (newVal) {
-      // Khi modal được mở, kiểm tra internId và lấy thông tin
-      if (props.internId) {
-        await fetchInternDetails(props.internId)
+      if (props.meetingId) {
+        await fetchMeetingDetails(props.meetingId)
       } else {
-        resetForm() // Nếu không có internId, reset form
+        resetForm()
       }
     }
   },
@@ -108,15 +115,16 @@ watch(
 )
 
 const resetForm = () => {
-  intern.value = {
-    userName: '',
-    email: '',
-    picture: '',
-    phoneNumber: '',
-    address: '',
-    major: ''
+  meetings.value = {
+    code: '',
+    title: '',
+    content: '',
+    location: '',
+    startTime: null,
+    endTime: null,
+    link: ''
   }
-  internForm.value?.resetFields()
+  meetingsForm.value?.resetFields()
 }
 
 const closeModal = () => {
@@ -126,21 +134,27 @@ const closeModal = () => {
 
 const handleSubmit = async () => {
   try {
-    await internForm.value.validate()
-    const formData = { ...intern.value }
-    if (props.internId) {
-      await updateIntern(formData, props.internId)
-      toast.success('Cập nhật thành công!')
+    await meetingsForm.value.validate()
+
+    const formData = {
+      ...meetings.value,
+      startTime: meetings.value.startTime?.valueOf(),
+      endTime: meetings.value.endTime?.valueOf()
+    }
+
+    if (props.meetingId) {
+      await updateMeetings(formData, props.meetingId)
+      toast.success('Cập nhật cuộc họp thành công!')
     } else {
-      await createIntern(formData)
-      toast.success('Thêm mới thành công!')
+      await createMeetings(formData)
+      toast.success('Thêm mới cuộc họp thành công!')
     }
 
     resetForm()
     closeModal()
     emit('success')
   } catch (error) {
-    // toast.error('Lưu thất bại, vui lòng kiểm tra lại dữ liệu!')
+    toast.error('Lưu thất bại, vui lòng kiểm tra lại dữ liệu!')
   }
 }
 </script>
