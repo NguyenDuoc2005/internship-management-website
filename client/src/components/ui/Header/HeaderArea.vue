@@ -61,8 +61,6 @@ const headerStyle = computed(() => {
           <!-- Notification Menu Area -->
         </ul>
 
-        <Notification />
-
         <!-- User Area -->
         <DropdownUser :isNoSidebarPage="props.isNoSidebarPage" />
         <!-- User Area -->

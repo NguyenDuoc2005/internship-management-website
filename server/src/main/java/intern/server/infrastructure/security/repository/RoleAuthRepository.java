@@ -1,5 +1,7 @@
 package intern.server.infrastructure.security.repository;
 
+import intern.server.entity.Role;
+import jakarta.validation.constraints.Size;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import intern.server.repository.RoleRepository;
@@ -39,4 +41,7 @@ public interface RoleAuthRepository extends RoleRepository {
     )
     List<String> findRoleNameByUserId(@Param("id") String id);
 
+    Role findRoleByName(@Size(max = 255) String name);
+
+    Role findRoleByCode(@Size(max = 255) String code);
 }

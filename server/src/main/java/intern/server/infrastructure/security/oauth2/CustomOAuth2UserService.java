@@ -1,5 +1,8 @@
 package intern.server.infrastructure.security.oauth2;
 
+import intern.server.entity.Role;
+import intern.server.entity.UserRole;
+import intern.server.infrastructure.security.repository.UserRoleAuthRepository;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -38,6 +41,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     private final UserAuthRepository userAuthRepository;
 
+    private final UserRoleAuthRepository userRoleAuthRepository;
+
     private final RoleAuthRepository roleAuthRepository;
 
     @Override
@@ -53,7 +58,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     }
 
     private OAuth2User processOAuth2User(OAuth2UserRequest oAuth2UserRequest, OAuth2User oAuth2User) {
-        // lấy thông tin nguoi dùng đăng nhập từ oauth 2
+
         OAuth2UserInfo oAuth2UserInfo = OAuth2UserInfoFactory
                 .getOAuth2UserInfo(
                         oAuth2UserRequest.getClientRegistration().getRegistrationId(),
@@ -66,27 +71,30 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         }
 
         Optional<Cookie> cookieOpRole = CookieUtils.getCookie(httpServletRequest, OAuth2Constant.SCREEN_FOR_ROLE_COOKIE_NAME);
-        Optional<Cookie> cookieOpFaclity = CookieUtils.getCookie(httpServletRequest, OAuth2Constant.SCREEN_FOR_FACILITY_COOKIE_NAME);
+        Optional<Cookie> cookieRegister = CookieUtils.getCookie(httpServletRequest, OAuth2Constant.REGISTER_PARAM_COOKIE_NAME);
+
         log.info("Received role: " + cookieOpRole.get().getValue());
 
         if (cookieOpRole.isPresent()) {
+            String registerValue = cookieRegister.map(Cookie::getValue).orElse("false");
+            boolean isRegister = "true".equalsIgnoreCase(registerValue);
             Cookie cookie = cookieOpRole.get();
             if(cookie.getValue().equals(OAuth2Constant.ROLE_ADMIN)){
-                return this.processAdmin(oAuth2UserInfo,OAuth2Constant.ROLE_ADMIN);
+                return this.processAdmin(oAuth2UserInfo,OAuth2Constant.ROLE_ADMIN,isRegister);
             }
             if(cookie.getValue().equals(OAuth2Constant.ROLE_MANAGE)){
 
-                return this.processManage(oAuth2UserInfo,OAuth2Constant.ROLE_MANAGE);
+                return this.processManage(oAuth2UserInfo,OAuth2Constant.ROLE_MANAGE,isRegister);
             }
             if(cookie.getValue().equals(OAuth2Constant.ROLE_MEMBER)){
-                return this.processMember(oAuth2UserInfo,OAuth2Constant.ROLE_MEMBER);
+                return this.processMember(oAuth2UserInfo,OAuth2Constant.ROLE_MEMBER,isRegister);
             }
         }
         CookieUtils.addCookie(httpServletResponse, CookieConstant.ACCOUNT_NOT_EXIST, CookieConstant.ACCOUNT_NOT_EXIST);
         throw new OAuth2AuthenticationProcessingException(CookieConstant.ACCOUNT_NOT_EXIST);
     }
 
-    private OAuth2User processAdmin(OAuth2UserInfo oAuth2UserInfo, String role) {
+    private OAuth2User processAdmin(OAuth2UserInfo oAuth2UserInfo, String role,Boolean register) {
 
         Optional<User> userOptional = userAuthRepository.findByEmailAndStatus(oAuth2UserInfo.getEmail(), EntityStatus.ACTIVE);
 
@@ -112,8 +120,26 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         }
     }
 
-    private OAuth2User processManage(OAuth2UserInfo oAuth2UserInfo, String role) {
-
+    private OAuth2User processManage(OAuth2UserInfo oAuth2UserInfo, String role,Boolean register) {
+        if(register){
+            Optional<User> userFind = userAuthRepository.findByEmailAndStatus(oAuth2UserInfo.getEmail(),EntityStatus.ACTIVE);
+            if(userFind.isPresent()){
+                CookieUtils.addCookie(httpServletResponse, CookieConstant.ACCOUNT_EXIST, CookieConstant.ACCOUNT_EXIST);
+                throw new OAuth2AuthenticationProcessingException(CookieConstant.ACCOUNT_EXIST);
+            }
+            User user= new User();
+            String email = oAuth2UserInfo.getEmail();
+            user.setEmail(email);
+            user.setUsername(oAuth2UserInfo.getName());
+            user.setPicture(oAuth2UserInfo.getImageUrl());
+            user.setCode(email.substring(0, email.indexOf("@")));
+            userAuthRepository.save(user);
+            Role roleFind = roleAuthRepository.findRoleByCode("QUAN_LY");
+            UserRole userRole = new UserRole();
+            userRole.setRole(roleFind);
+            userRole.setUser(user);
+            userRoleAuthRepository.save(userRole);
+        }
         Optional<User> userOptional = userAuthRepository.findByEmailAndStatus(oAuth2UserInfo.getEmail(), EntityStatus.ACTIVE);
 
         if (
@@ -138,8 +164,26 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         }
     }
 
-    private OAuth2User processMember(OAuth2UserInfo oAuth2UserInfo, String role) {
-
+    private OAuth2User processMember(OAuth2UserInfo oAuth2UserInfo, String role,Boolean register) {
+        if(register){
+            Optional<User> userFind = userAuthRepository.findByEmailAndStatus(oAuth2UserInfo.getEmail(),EntityStatus.ACTIVE);
+            if(userFind.isPresent()){
+                CookieUtils.addCookie(httpServletResponse, CookieConstant.ACCOUNT_EXIST, CookieConstant.ACCOUNT_EXIST);
+                throw new OAuth2AuthenticationProcessingException(CookieConstant.ACCOUNT_EXIST);
+            }
+            User user= new User();
+            String email = oAuth2UserInfo.getEmail();
+            user.setEmail(email);
+            user.setUsername(oAuth2UserInfo.getName());
+            user.setPicture(oAuth2UserInfo.getImageUrl());
+            user.setCode(email.substring(0, email.indexOf("@")));
+            userAuthRepository.save(user);
+            Role roleFind = roleAuthRepository.findRoleByCode("THANH_VIEN");
+            UserRole userRole = new UserRole();
+            userRole.setRole(roleFind);
+            userRole.setUser(user);
+            userRoleAuthRepository.save(userRole);
+        }
         Optional<User> userOptional = userAuthRepository.findByEmailAndStatus(oAuth2UserInfo.getEmail(), EntityStatus.ACTIVE);
 
         if (

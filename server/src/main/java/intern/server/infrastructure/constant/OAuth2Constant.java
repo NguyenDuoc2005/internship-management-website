@@ -8,7 +8,7 @@ public class OAuth2Constant {
 
     public static final String SCREEN_FOR_ROLE_COOKIE_NAME = "screen";
 
-    public static final String SCREEN_FOR_FACILITY_COOKIE_NAME = "facility_login";
+    public static final String REGISTER_PARAM_COOKIE_NAME = "register";
 
     public static final String REDIRECT_LOGIN_ADMIN = "/login-google";
 

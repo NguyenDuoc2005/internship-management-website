@@ -1,4 +1,4 @@
-package intern.server.core.manage.phase.dto.request;
+package intern.server.core.auth.dto.request;
 
 import lombok.Getter;
 import lombok.Setter;

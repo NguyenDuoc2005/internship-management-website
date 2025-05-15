@@ -26,17 +26,13 @@ public final class MappingConstants {
     public static final String API_MEMBER_PREFIX =API_VERSION_PREFIX + MEMBER;
     public static final String API_PROJECT_DETAILS_PREFIX =API_VERSION_PREFIX + PROJECT_DETAILS;
 
-    public static final String API_ADMIN_DEPARTMENT = API_ADMIN_PREFIX + "/department";
-
     public static final String API_ADMIN_PROJECT = API_ADMIN_PREFIX + "/project";
-
-    public static final String API_ADMIN_PROJECT_STUDENT = API_ADMIN_PROJECT + "/student";
 
     public static final String API_ADMIN_ROLE = API_ADMIN_PREFIX + "/role";
 
     // API MEMBER
-    public static final String API_MEMBER_MYPROJECT = API_MEMBER_PREFIX + "/my-project";
+    public static final String API_MEMBER_MYPROJECT = API_MEMBER_PREFIX + "";
     //manage
-    public static final String API_MANAGE_PROJECT = API_MANAGE_PREFIX + "/project";
-
+    public static final String API_MANAGE_INTERN = API_MANAGE_PREFIX + "/intern";
+    public static final String API_MANAGE_MEETINGS = API_MANAGE_PREFIX + "/meetings";
 }
