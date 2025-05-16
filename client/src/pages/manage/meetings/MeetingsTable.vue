@@ -9,20 +9,13 @@
     </template>
 
     <div class="min-h-[360px]">
-      <a-table
-        :columns="columns"
-        :data-source="meetings"
-        :pagination="{
-          current: paginationParams.page,
-          pageSize: paginationParams.size,
-          total: totalItems,
-          showSizeChanger: true,
-          pageSizeOptions: ['10', '20', '30', '40', '50']
-        }"
-        :scroll="{ x: 1500, y: 400 }"
-        @change="handlePageChange"
-        rowKey="id"
-      >
+      <a-table :columns="columns" :data-source="meetings" :pagination="{
+        current: paginationParams.page,
+        pageSize: paginationParams.size,
+        total: totalItems,
+        showSizeChanger: true,
+        pageSizeOptions: ['10', '20', '30', '40', '50']
+      }" :scroll="{ x: 1500, y: 400 }" @change="handlePageChange" rowKey="id">
         <template #bodyCell="{ column, record, index }">
           <template v-if="column.key === 'orderNumber'">
             {{ (paginationParams.page - 1) * paginationParams.size + index + 1 }}
@@ -46,15 +39,31 @@
             <div class="flex gap-1 justify-center">
               <a-tooltip title="Cập nhật">
                 <a-icon @click="handleViewClick(record.id)">
-                  <font-awesome-icon :icon="['fas', 'pen-to-square']" class="cursor-pointer p-2" style="font-size: 20px;" />
+                  <font-awesome-icon :icon="['fas', 'pen-to-square']" class="cursor-pointer p-2 text-green-300"
+                    style="font-size: 20px;" />
+                </a-icon>
+              </a-tooltip>
+              
+              <a-tooltip title="Thêm thành viên vào cuộc họp">
+                <a-icon @click="handleJoinMeetingsClick(record.id)">
+                  <font-awesome-icon :icon="['fas', 'user-plus']" class="cursor-pointer p-2 text-blue-400" style="font-size: 20px;" />
+                </a-icon>
+              </a-tooltip>
+
+              <a-tooltip title="Chấm điểm thành viên">
+                <a-icon @click="handleEvaluationMeetingsClick(record.id)">
+                  <font-awesome-icon :icon="['fas', 'star']" class="cursor-pointer p-2 text-red-400"
+                    style="font-size: 20px;" />
                 </a-icon>
               </a-tooltip>
 
               <a-tooltip title="Thay đổi trạng thái">
                 <a-icon @click="handleUpdateStatusClick(record.id)">
-                  <font-awesome-icon :icon="['fas', 'rotate-right']" class="cursor-pointer p-2" style="font-size: 20px;" />
+                  <font-awesome-icon :icon="['fas', 'rotate-right']" class="cursor-pointer p-2 text-yellow-500"
+                    style="font-size: 20px;" />
                 </a-icon>
               </a-tooltip>
+
             </div>
           </template>
         </template>
@@ -66,10 +75,12 @@
 <script setup lang="ts">
 import DivCustom from '@/components/custom/Div/DivCustom.vue'
 import { TableColumnsType } from 'ant-design-vue'
-import { faPenToSquare, faRotateRight } from '@fortawesome/free-solid-svg-icons'
+import { faPenToSquare, faRotateRight, faUserPlus ,faStar} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
-library.add(faPenToSquare, faRotateRight)
+import { router } from '@/routes/router'
+import { ROUTES_CONSTANTS } from '@/constants/path'
+library.add(faPenToSquare, faRotateRight, faUserPlus,faStar)
 
 defineProps<{
   meetings: any[]
@@ -77,7 +88,7 @@ defineProps<{
   totalItems: number
 }>()
 
-const emit = defineEmits(['page-change', 'add', 'view', 'update-status'])
+const emit = defineEmits(['page-change', 'add', 'view', 'update-status', 'join-meeting', 'evaluation-user'])
 
 const columns: TableColumnsType = [
   { title: 'STT', key: 'orderNumber', width: 10, align: 'center' },
@@ -89,7 +100,7 @@ const columns: TableColumnsType = [
   { title: 'Kết thúc', key: 'endTime', dataIndex: 'endTime', width: 15, align: 'center' },
   { title: 'Link', key: 'link', dataIndex: 'link', width: 20, align: 'center' },
   { title: 'Trạng thái', key: 'status', dataIndex: 'status', width: 15, align: 'center' },
-  { title: 'Hành động', key: 'operation', width: 10, align: 'center', fixed: 'right' }
+  { title: 'Hành động', key: 'operation', width: 20, align: 'center', fixed: 'right' }
 ]
 
 const formatDate = (timestamp: number | null) => {
@@ -109,5 +120,11 @@ const handlePageChange = (pagination: any) => {
 }
 const handleAddClick = () => emit('add')
 const handleViewClick = (id: string) => emit('view', id)
+const handleJoinMeetingsClick = (id: string) => emit('join-meeting', id)
+const handleEvaluationMeetingsClick = (id:string)=>{
+  router.push({name:ROUTES_CONSTANTS.MANAGE.children.EVALUATION.name ,
+     params: { id: id }}
+  )
+}
 const handleUpdateStatusClick = (id: string) => emit('update-status', id)
 </script>

@@ -1,5 +1,6 @@
 package intern.server.core.manage.meetings.controller;
 
+import intern.server.core.manage.intern.dto.request.MAInternRequest;
 import intern.server.core.manage.meetings.dto.request.MACreateUpdateMeetingsRequest;
 import intern.server.core.manage.meetings.dto.request.MAMeetingsRequest;
 import intern.server.core.manage.meetings.service.MAMeetingsService;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(MappingConstants.API_MANAGE_MEETINGS)
-public class MeetingsController {
+public class MAMeetingsController {
 
     private final MAMeetingsService maMeetingsService;
 
@@ -40,5 +41,7 @@ public class MeetingsController {
     public ResponseEntity<?> getMeetingsById(@PathVariable String internId) {
         return Helper.createResponseEntity(maMeetingsService.getMeetingsById(internId));
     }
+
+
 
 }

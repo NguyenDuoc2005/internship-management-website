@@ -56,4 +56,6 @@ public interface MAUserRepository extends UserRepository {
     """
     )
     Optional<MAInternResponse> getAllUsersById(@Param("id") String id);
+
+    User findUserById(String id);
 }

@@ -35,4 +35,5 @@ public final class MappingConstants {
     //manage
     public static final String API_MANAGE_INTERN = API_MANAGE_PREFIX + "/intern";
     public static final String API_MANAGE_MEETINGS = API_MANAGE_PREFIX + "/meetings";
+    public static final String API_MANAGE_EVALUATION = API_MANAGE_PREFIX + "/evaluation";
 }

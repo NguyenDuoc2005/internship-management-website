@@ -11,4 +11,5 @@ public class MAMeetingsRequest extends PageableRequest {
 
     private EntityStatus status;
 
+
 }

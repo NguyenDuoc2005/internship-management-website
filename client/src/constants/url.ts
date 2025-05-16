@@ -44,6 +44,8 @@ export const PREFIX_API_ADMIN = `${API_URL}/admin` as string
 export const PREFIX_API_MANAGE = `${API_URL}/manage` as string
 export const PREFIX_API_INTERN_MANAGE = `${PREFIX_API_MANAGE}/intern` as string
 export const PREFIX_API_MEETINGS_MANAGE = `${PREFIX_API_MANAGE}/meetings` as string
+export const PREFIX_API_EVALUATION_MANAGE = `${PREFIX_API_MANAGE}/evaluation` as string
+
 // MEMBER API
 export const PREFIX_API_MEMBER = `${API_URL}/member` as string
 

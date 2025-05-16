@@ -14,8 +14,10 @@
             :totalItems="state.totalItems"
             @add="openAddModal"
             @view="openViewModal"
+            @join-meeting="openJoinMeetingsModal"
             @page-change="handlePageChange"
             @update-status="handleUpdateStatusClick"
+            @evaluation-user="openEvaluationUserModal"
         />
     </BreadcrumbDefault>
 
@@ -26,6 +28,13 @@
         @close="closeModal"
         @success="fetchMeetings"
     />
+     <JoinMeetingsModal
+        :open="state.isJoinMeetingsModalOpen"
+        :meetingId="state.id"
+        @close="closeModal"
+        @success="fetchMeetings"
+    />
+   
 </template>
 
 <script setup lang="ts">
@@ -41,11 +50,15 @@ import MeetingsTable from './MeetingsTable.vue'
 import MeetingsModal from './MeetingsModal.vue'
 import { changeStatusMeeting, getAllMeetings, MAMeetingResponse, ParamsGetMeeting } from '@/services/api/meetings.api'
 import BreadcrumbDefault from '@/components/custom/Div/BreadcrumbDefault.vue'
+import JoinMeetingsModal from './JoinMeetingsModal.vue'
+import EvaluationUserModal from './EvaluationUserModal.vue'
 
 const state = reactive({
     searchQuery: '',
     meetingStatus: null as string | null,
     isModalOpen: false,
+     isJoinMeetingsModalOpen: false,
+       isEvaluationUserModalOpen: false,
     id: null as string | null,
     meetings: [] as MAMeetingResponse[],
     paginationParams: { page: 1, size: 10 },
@@ -82,8 +95,19 @@ const openViewModal = (id: string) => {
     state.isModalOpen = true
 }
 
+const openJoinMeetingsModal = (id: string) => {
+    state.id = id
+    state.isJoinMeetingsModalOpen = true
+}
+const openEvaluationUserModal = (id: string) => {
+    state.id = id
+    state.isEvaluationUserModalOpen = true
+}
+
 const closeModal = () => {
     state.isModalOpen = false
+    state.isJoinMeetingsModalOpen = false
+    state.isEvaluationUserModalOpen = false
 }
 
 const handlePageChange = ({ page, pageSize }: { page: number; pageSize?: number }) => {
@@ -114,7 +138,6 @@ const updateSearchStatus = (newStatus: string) => {
     state.meetingStatus = newStatus
 }
 
-// Theo dõi sự thay đổi của bộ lọc
 watch(() => state.searchQuery, () => {
     state.paginationParams.page = 1
     debouncedFetchMeetings()

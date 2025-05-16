@@ -154,7 +154,7 @@ const handleSubmit = async () => {
     closeModal()
     emit('success')
   } catch (error) {
-    toast.error('Lưu thất bại, vui lòng kiểm tra lại dữ liệu!')
   }
 }
+
 </script>
