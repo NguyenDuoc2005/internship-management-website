@@ -2,6 +2,7 @@ package intern.server.core.manage.meetings.controller;
 
 import intern.server.core.manage.meetings.dto.request.MAEvaluationRequest;
 import intern.server.core.manage.meetings.dto.request.MAJoinOutMeetingsRequest;
+import intern.server.core.manage.meetings.dto.request.MAUpdateEvaluationRequest;
 import intern.server.core.manage.meetings.service.MAEvaluationService;
 import intern.server.infrastructure.constant.MappingConstants;
 import intern.server.utils.Helper;
@@ -33,8 +34,12 @@ public class MAEvaluationController {
 
     @GetMapping("")
     public ResponseEntity<?> getAllEvaluation(MAEvaluationRequest request) {
-        return Helper.createResponseEntity(maEvaluationService.getAllCheckUserEvaluation(request));
+        return Helper.createResponseEntity(maEvaluationService.getUserEvaluation(request));
     }
 
+    @PutMapping("/update-evaluation")
+    public ResponseEntity<?> updateEvaluation(@RequestBody MAUpdateEvaluationRequest request) {
+        return Helper.createResponseEntity(maEvaluationService.updateEvaluation(request));
+    }
 
 }

@@ -42,6 +42,4 @@ public class MAMeetingsController {
         return Helper.createResponseEntity(maMeetingsService.getMeetingsById(internId));
     }
 
-
-
 }

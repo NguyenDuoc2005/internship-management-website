@@ -36,6 +36,7 @@ export interface MACreateUpdateMeetingsRequest {
   link: string;
 }
 
+
 export const getAllMeetings = async (params: ParamsGetMeeting) => {
     const res = (await request({
         url: `${PREFIX_API_MEETINGS_MANAGE}`,
@@ -78,3 +79,5 @@ export const getMeetingsById = async (id: string) => {
     })) as AxiosResponse<DefaultResponse<MAMeetingResponse>>;
     return res.data;
 };
+
+

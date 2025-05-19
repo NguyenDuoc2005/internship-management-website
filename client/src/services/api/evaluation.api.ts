@@ -41,7 +41,16 @@ export interface MAJoinOutMeetingsRequest {
   idUser: string;
   meetingId: string;
 }
+export interface MAUpdateEvaluationRequest {
+  evaluations: EvaluationUpdateItem[];
+}
 
+export interface EvaluationUpdateItem {
+  meetingId: string;
+  userId: string;
+  score: number;
+  comment: string;
+}
 export const getAllCheckUserEvaluation = async (params: MAEvaluationRequest) => {
     const res = (await request({
         url: `${PREFIX_API_EVALUATION_MANAGE}/check-user`,
@@ -67,4 +76,20 @@ export const outMeetings = async (data: MAJoinOutMeetingsRequest) => {
         data: data,
     })) as AxiosResponse<DefaultResponse<null>>;
     return res.data;
+};
+export const getAllEvaluation = async (params: MAEvaluationRequest) => {
+    const res = (await request({
+        url: `${PREFIX_API_EVALUATION_MANAGE}`,
+        method: "GET",
+        params: params,
+    })) as AxiosResponse<DefaultResponse<PaginationResponse<Array<MAEvaluationResponse>>>>;
+    return res.data;
+};
+export const updateEvaluation = async (data: MAUpdateEvaluationRequest) => {
+  const res = (await request({
+    url: `${PREFIX_API_EVALUATION_MANAGE}/update-evaluation`,
+    method: "PUT",
+    data: data,
+  })) as AxiosResponse<DefaultResponse<null>>;
+  return res.data;
 };
