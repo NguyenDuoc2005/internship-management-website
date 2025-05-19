@@ -8,7 +8,6 @@ import {
     ResponseList,
 } from "@/types/api.common";
 
-// Định nghĩa phản hồi (Response) cho intern
 export type InternResponse = ResponseList & {
     id: string;
     code: string;

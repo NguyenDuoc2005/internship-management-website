@@ -42,13 +42,11 @@ const options = [
     { label: 'Ngừng hoạt động', value: 'INACTIVE' }
 ]
 
-// Gửi emit mỗi khi filter thay đổi
 watch([localSearchQuery, localSearchStatus], ([newQuery, newStatus]) => {
     emit('update:searchQuery', newQuery)
     emit('update:searchStatus', newStatus)
 })
 
-// Reset bộ lọc
 const resetFilters = () => {
     localSearchQuery.value = ''
     emit('update:searchQuery', '')

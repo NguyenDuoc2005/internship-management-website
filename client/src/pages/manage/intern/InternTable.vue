@@ -48,13 +48,13 @@
             <div class="flex gap-1 justify-center">
               <a-tooltip title="Cập nhật">
                 <a-icon @click="handleViewClick(record.id)">
-                  <font-awesome-icon :icon="['fas', 'pen-to-square']" class="cursor-pointer p-2" style="font-size: 20px;" />
+                  <font-awesome-icon :icon="['fas', 'pen-to-square']" class="cursor-pointer p-2 text-green-300" style="font-size: 20px;" />
                 </a-icon>
               </a-tooltip>
 
               <a-tooltip title="Thay đổi trạng thái">
                 <a-icon @click="handleUpdateStatusClick(record.id)">
-                  <font-awesome-icon :icon="['fas', 'rotate-right']" class="cursor-pointer p-2" style="font-size: 20px;" />
+                  <font-awesome-icon :icon="['fas', 'rotate-right']" class="cursor-pointer p-2 text-yellow-500" style="font-size: 20px;" />
                 </a-icon>
               </a-tooltip>
             </div>

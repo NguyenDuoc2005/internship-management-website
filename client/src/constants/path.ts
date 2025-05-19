@@ -47,6 +47,10 @@ export const ROUTES_CONSTANTS = {
         path: 'meetings',
         name: 'meetings'
       },
+      EVALUATION: {
+        path: 'evaluation-intern/:id',
+        name: 'evaluation-intern'
+      },
     }
   },
   // MEMBER

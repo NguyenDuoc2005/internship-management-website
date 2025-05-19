@@ -25,8 +25,8 @@ export const routes: RouteRecordRaw[] = [
     path: '/',
     component: () => import('@/pages/login/Login.vue')
   },
-   // đăng ký route
-   {
+  // đăng ký route
+  {
     path: ROUTES_CONSTANTS.REGISTER.path,
     name: ROUTES_CONSTANTS.REGISTER.name,
     component: () => import('@/pages/login/Register.vue')
@@ -37,7 +37,7 @@ export const routes: RouteRecordRaw[] = [
     redirect: `${ROUTES_CONSTANTS.ADMIN.path}/${ROUTES_CONSTANTS.ADMIN.children.ADMIN.path}`,
     component: () => import('@/layout/Admin.vue'),
     children: [
-    
+
       {
         path: `${ROUTES_CONSTANTS.ADMIN.children.ADMIN.path}`,
         name: `${ROUTES_CONSTANTS.ADMIN.children.ADMIN.name}`,
@@ -61,17 +61,23 @@ export const routes: RouteRecordRaw[] = [
           requiresAuth: true
         }
       },
-     //intern
+      //intern
       {
-        path: ROUTES_CONSTANTS.MANAGE.children.INTERN.name,
-        name: ROUTES_CONSTANTS.MANAGE.children.INTERN.path,
+        path: ROUTES_CONSTANTS.MANAGE.children.INTERN.path,
+        name: ROUTES_CONSTANTS.MANAGE.children.INTERN.name,
         component: () => import('@/pages/manage/intern/Intern.vue'),
       },
       //meetings
       {
-        path: ROUTES_CONSTANTS.MANAGE.children.MEETINGS.name,
-        name: ROUTES_CONSTANTS.MANAGE.children.MEETINGS.path,
+        path: ROUTES_CONSTANTS.MANAGE.children.MEETINGS.path,
+        name: ROUTES_CONSTANTS.MANAGE.children.MEETINGS.name,
         component: () => import('@/pages/manage/meetings/Meetings.vue'),
+      },
+      // evaluation 
+      {
+        path: ROUTES_CONSTANTS.MANAGE.children.EVALUATION.path,
+        name: ROUTES_CONSTANTS.MANAGE.children.EVALUATION.name,
+        component: () => import('@/pages/manage/meetings/EvaluationUserModal.vue'),
       },
     ]
   },
