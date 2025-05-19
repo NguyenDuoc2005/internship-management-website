@@ -1,24 +1,14 @@
-# Sử dụng một hình ảnh cơ sở Java
-FROM openjdk:17-jdk-alpine
-
-# Tạo thư mục /app trong hệ thống tệp Docker và đặt nó làm thư mục làm việc mặc định
+# Stage 1: Build app
+FROM gradle:8.5-jdk17 AS builder
 WORKDIR /app
+COPY . .
+RUN gradle build --no-daemon
 
-# Sao chép tệp JAR của ứng dụng Spring Boot vào thư mục /app trong hệ thống tệp Docker
-COPY build/libs/BE-0.0.1-SNAPSHOT.jar ./app.jar
-
-# Đặt biến môi trường SPRING_PROFILES_ACTIVE (nếu cần)
-# ENV SPRING_PROFILES_ACTIVE=production
-
-# Đặt múi giờ Việt Nam
+# Stage 2: Run app
+FROM openjdk:17-jdk-alpine
+WORKDIR /app
+COPY --from=builder /app/build/libs/*.jar app.jar
 ENV TZ=Asia/Ho_Chi_Minh
-
-# Làm mới thông tin về múi giờ
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
-
-# Expose cổng mạng cho ứng dụng Spring Boot (thay đổi số cổng cần thiết)
-# Đảm bảo rằng container sẽ lắng nghe kết nối đến cổng 9999
 EXPOSE 9999
-
-# Khởi chạy ứng dụng Spring Boot khi container được khởi động
 CMD ["java", "-jar", "app.jar"]
