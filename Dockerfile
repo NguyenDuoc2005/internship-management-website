@@ -2,7 +2,7 @@
 FROM gradle:8.5-jdk17 AS builder
 WORKDIR /app
 COPY . .
-RUN gradle build --no-daemon
+RUN gradle build --no-daemon --stacktrace
 
 # Stage 2: Run app
 FROM openjdk:17-jdk-alpine
@@ -12,3 +12,4 @@ ENV TZ=Asia/Ho_Chi_Minh
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 EXPOSE 9999
 CMD ["java", "-jar", "app.jar"]
+#
