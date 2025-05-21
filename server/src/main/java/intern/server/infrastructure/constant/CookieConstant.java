@@ -10,5 +10,8 @@ public class CookieConstant {
 
     public static final int MAX_AGE = 20000;
 
+    public static final String Unverified_Account = "u_v_a";
+
+    public static final String Registered_Awaiting_Confirmation = "r_a_c";
 
 }

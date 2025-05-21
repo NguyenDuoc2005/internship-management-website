@@ -10,7 +10,7 @@ public class OAuth2Constant {
 
     public static final String REGISTER_PARAM_COOKIE_NAME = "register";
 
-    public static final String REDIRECT_LOGIN_ADMIN = "/login-google";
+    public static final String REDIRECT_LOGIN_ADMIN = "/login";
 
     public static final String ROLE_ADMIN = "ADMIN";
 

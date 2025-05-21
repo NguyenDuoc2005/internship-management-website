@@ -75,19 +75,5 @@ const handleRedirectLoginMANAGE = () => {
 const handleRedirectLoginMEMBER = () => {
   window.location.href = URL_OAUTH2_GOOGLE_MEMBER();
 };
-onMounted(() => {
 
-  const accountNotExistError = cookieStorageAction.get(ACCOUNT_NOT_EXIST)
-
-  const accountExistError = cookieStorageAction.get(ACCOUNT_EXIST)
-
-  if (accountNotExistError) {
-    toast.error(ACCOUNT_NOT_EXIST_MESSAGE)
-    cookieStorageAction.remove(ACCOUNT_NOT_EXIST)
-  }
-  if (accountExistError) {
-    toast.error(ACCOUNT_EXIST_MESSAGE)
-    cookieStorageAction.remove(ACCOUNT_EXIST)
-  }
-})
 </script>

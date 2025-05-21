@@ -2,6 +2,7 @@ package intern.server.infrastructure.security.oauth2;
 
 import intern.server.entity.Role;
 import intern.server.entity.UserRole;
+import intern.server.infrastructure.constant.EntityAccountStatus;
 import intern.server.infrastructure.security.repository.UserRoleAuthRepository;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -107,6 +108,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                 User staffExist = userOptional.get();
                 staffExist.setCode(email.substring(0, email.indexOf("@")));
                 staffExist.setPicture(oAuth2UserInfo.getImageUrl());
+
                 userAuthRepository.save(staffExist);
                 return UserPrincipal.create(userOptional.get(), oAuth2UserInfo.getAttributes(),roleUser);
             }else {
@@ -121,18 +123,32 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     }
 
     private OAuth2User processManage(OAuth2UserInfo oAuth2UserInfo, String role,Boolean register) {
+
         if(register){
+            // dang ky
+            Optional<User> userUNVERIFIED = userAuthRepository.
+                    findByEmailAndStatusAndConfirmationStatus(
+                            oAuth2UserInfo.getEmail(),EntityStatus.ACTIVE, EntityAccountStatus.INACTIVE);
+
+            if(userUNVERIFIED.isPresent()){
+                CookieUtils.addCookie(httpServletResponse, CookieConstant.ACCOUNT_EXIST, CookieConstant.ACCOUNT_EXIST);
+                throw new OAuth2AuthenticationProcessingException(CookieConstant.ACCOUNT_EXIST);
+            }
+
             Optional<User> userFind = userAuthRepository.findByEmailAndStatus(oAuth2UserInfo.getEmail(),EntityStatus.ACTIVE);
+
             if(userFind.isPresent()){
                 CookieUtils.addCookie(httpServletResponse, CookieConstant.ACCOUNT_EXIST, CookieConstant.ACCOUNT_EXIST);
                 throw new OAuth2AuthenticationProcessingException(CookieConstant.ACCOUNT_EXIST);
             }
+
             User user= new User();
             String email = oAuth2UserInfo.getEmail();
             user.setEmail(email);
             user.setUsername(oAuth2UserInfo.getName());
             user.setPicture(oAuth2UserInfo.getImageUrl());
             user.setCode(email.substring(0, email.indexOf("@")));
+            user.setConfirmationStatus(EntityAccountStatus.INACTIVE);
             userAuthRepository.save(user);
             Role roleFind = roleAuthRepository.findRoleByCode("QUAN_LY");
             UserRole userRole = new UserRole();
@@ -140,6 +156,16 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             userRole.setUser(user);
             userRoleAuthRepository.save(userRole);
         }
+        // đã đăng ky cho xac nhan
+        Optional<User> userUNVERIFIED = userAuthRepository.
+                findByEmailAndStatusAndConfirmationStatus(
+                        oAuth2UserInfo.getEmail(),EntityStatus.ACTIVE, EntityAccountStatus.INACTIVE);
+
+        if(userUNVERIFIED.isPresent()){
+            CookieUtils.addCookie(httpServletResponse, CookieConstant.Registered_Awaiting_Confirmation, CookieConstant.Registered_Awaiting_Confirmation);
+            throw new OAuth2AuthenticationProcessingException(CookieConstant.ACCOUNT_EXIST);
+        }
+
         Optional<User> userOptional = userAuthRepository.findByEmailAndStatus(oAuth2UserInfo.getEmail(), EntityStatus.ACTIVE);
 
         if (
