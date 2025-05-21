@@ -28,10 +28,6 @@
         <a-input v-model:value="intern.email" />
       </a-form-item>
 
-      <a-form-item label="Ảnh đại diện" name="picture" :rules="rules.picture">
-        <a-input v-model:value="intern.picture" />
-      </a-form-item>
-
       <a-form-item label="Số điện thoại" name="phoneNumber" :rules="rules.phoneNumber">
         <a-input v-model:value="intern.phoneNumber" />
       </a-form-item>
@@ -43,13 +39,39 @@
       <a-form-item label="Chuyên ngành" name="major" :rules="rules.major">
         <a-input v-model:value="intern.major" />
       </a-form-item>
+
+      <a-form-item label="Ảnh đại diện" name="picture" :rules="rules.picture">
+        <a-upload
+          :beforeUpload="handleImageChange"
+          :showUploadList="false"
+          accept="image/*"
+        >
+          <a-button>Chọn ảnh</a-button>
+        </a-upload>
+
+        <!-- Spinner + Ảnh -->
+        <a-spin :spinning="uploading" class="mt-2">
+          <div v-if="intern.picture">
+            <img
+              :src="intern.picture"
+              alt="Ảnh đại diện"
+              style="max-width: 120px; border: 1px solid #ccc; padding: 4px; border-radius: 4px;"
+            />
+          </div>
+        </a-spin>
+
+        <!-- Tên ảnh -->
+        <div v-if="intern.pictureName" class="mt-1 text-sm text-gray-500">
+          Ảnh: {{ intern.pictureName }}
+        </div>
+      </a-form-item>
     </a-form>
   </a-modal>
 </template>
 
 <script setup lang="ts">
-import { ref, watch, defineProps, defineEmits, nextTick } from 'vue'
-import { createIntern, getByIdIntern, updateIntern } from '@/services/api/intern.api'
+import { ref, watch } from 'vue'
+import { createIntern, getByIdIntern, updateIntern, uploadFile } from '@/services/api/intern.api'
 import { toast } from 'vue3-toastify'
 
 const props = defineProps<{ open: boolean; internId: string | null; title: string }>()
@@ -59,12 +81,14 @@ const intern = ref({
   userName: '',
   email: '',
   picture: '',
+  pictureName: '',
   phoneNumber: '',
   address: '',
   major: ''
 })
 
 const internForm = ref()
+const uploading = ref(false)
 
 const rules = {
   userName: [{ required: true, message: 'Tên đăng nhập không được để trống!' }],
@@ -75,6 +99,21 @@ const rules = {
   major: [{ required: true, message: 'Chuyên ngành không được để trống!' }]
 }
 
+const handleImageChange = async (file: File) => {
+  uploading.value = true
+  try {
+    const res = await uploadFile(file)
+    intern.value.picture = res.data
+    intern.value.pictureName = file.name
+  } catch (error) {
+    console.error('Lỗi upload ảnh:', error)
+    toast.error('Tải ảnh thất bại!')
+  } finally {
+    uploading.value = false
+  }
+  return false // Ngăn upload mặc định
+}
+
 const fetchInternDetails = async (id: string) => {
   try {
     const response = await getByIdIntern(id)
@@ -82,11 +121,11 @@ const fetchInternDetails = async (id: string) => {
       userName: response.data.userName,
       email: response.data.email,
       picture: response.data.picture,
+      pictureName: 'Đã có ảnh',
       phoneNumber: response.data.phoneNumber,
       address: response.data.address,
       major: response.data.major
     }
-    console.log(intern.value)
   } catch (error) {
     console.error('Lỗi khi lấy thông tin thực tập sinh:', error)
   }
@@ -96,11 +135,10 @@ watch(
   () => props.open,
   async (newVal) => {
     if (newVal) {
-      // Khi modal được mở, kiểm tra internId và lấy thông tin
       if (props.internId) {
         await fetchInternDetails(props.internId)
       } else {
-        resetForm() // Nếu không có internId, reset form
+        resetForm()
       }
     }
   },
@@ -112,6 +150,7 @@ const resetForm = () => {
     userName: '',
     email: '',
     picture: '',
+    pictureName: '',
     phoneNumber: '',
     address: '',
     major: ''
@@ -127,7 +166,16 @@ const closeModal = () => {
 const handleSubmit = async () => {
   try {
     await internForm.value.validate()
-    const formData = { ...intern.value }
+
+    const formData = {
+      userName: intern.value.userName,
+      email: intern.value.email,
+      phoneNumber: intern.value.phoneNumber,
+      address: intern.value.address,
+      major: intern.value.major,
+      picture: intern.value.picture
+    }
+
     if (props.internId) {
       await updateIntern(formData, props.internId)
       toast.success('Cập nhật thành công!')
@@ -140,7 +188,7 @@ const handleSubmit = async () => {
     closeModal()
     emit('success')
   } catch (error) {
-    // toast.error('Lưu thất bại, vui lòng kiểm tra lại dữ liệu!')
+    console.error('Lỗi khi submit:', error)
   }
 }
 </script>

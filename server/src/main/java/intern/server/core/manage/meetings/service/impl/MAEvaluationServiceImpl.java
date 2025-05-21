@@ -104,7 +104,6 @@ public class MAEvaluationServiceImpl implements MAEvaluationService {
                 evaluation.setComment(item.getComment());
                 maEvaluationRepository.save(evaluation);
             } else {
-//                return new ResponseObject<>(null,HttpStatus.NOT_FOUND,"Không tìm thấy");
             }
 
         }

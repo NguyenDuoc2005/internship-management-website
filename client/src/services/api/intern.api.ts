@@ -82,3 +82,19 @@ export const getByIdIntern = async (id: string) => {
     })) as AxiosResponse<DefaultResponse<InternResponse>>;
     return res.data;
 };
+
+export const uploadFile = async (file: File) => {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const res = (await request({
+        url: `${PREFIX_API_INTERN_MANAGE}/upload`,
+        method: "POST",
+        data: formData,
+        headers: {
+            "Content-Type": "multipart/form-data"
+        }
+    })) as AxiosResponse<DefaultResponse<any>>;
+    
+    return res.data;
+};
