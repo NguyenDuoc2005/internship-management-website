@@ -68,7 +68,7 @@ const fetchInterns = async () => {
         const response = await getAllInterns(params)
         state.interns = response?.data?.data || []
         state.totalItems = response?.data?.totalElements || 0
-        console.log(response.data)
+        console.log("intern",response.data)
     } catch (error) {
         console.error('Lỗi khi tải danh sách thực tập sinh:', error)
     }

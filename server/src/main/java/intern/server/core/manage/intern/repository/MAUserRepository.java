@@ -24,6 +24,7 @@ public interface MAUserRepository extends UserRepository {
                u.position AS position,
                u.major AS major,
                u.status AS status,
+                   u.picture AS picture,
                u.createdDate AS createdDate
         FROM User u
              JOIN u.userRoles ur
@@ -46,6 +47,7 @@ public interface MAUserRepository extends UserRepository {
                u.email AS email,
                u.phoneNumber AS phoneNumber,
                u.code AS code,
+               u.picture AS picture,          
                u.address AS address,
                u.position AS position,
                u.major AS major,

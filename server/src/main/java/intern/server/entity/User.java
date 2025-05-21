@@ -1,5 +1,7 @@
 package intern.server.entity;
 
+import intern.server.infrastructure.constant.EntityAccountStatus;
+import intern.server.infrastructure.constant.EntityStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -53,5 +55,10 @@ public class User extends PrimaryEntity implements Serializable {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<UserRole> userRoles;
+
+    @Column(name = "confirmation_status")
+    @Enumerated(EnumType.ORDINAL)
+    private EntityAccountStatus confirmationStatus;
+
 
 }

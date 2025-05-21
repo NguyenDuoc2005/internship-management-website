@@ -11,6 +11,7 @@ import intern.server.core.manage.intern.service.MAInternService;
 import intern.server.entity.Role;
 import intern.server.entity.User;
 import intern.server.entity.UserRole;
+import intern.server.infrastructure.cloudinary.CloudinaryUploadImages;
 import intern.server.infrastructure.constant.EntityStatus;
 import intern.server.utils.Helper;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -32,6 +34,8 @@ public class MAInternServiceImpl implements MAInternService {
     private final MAUserRoleRepository maUserRoleRepository;
 
     private final MARoleRepository maRoleRepository;
+
+    private final CloudinaryUploadImages cloudinaryUploadImages;
 
     @Override
     public ResponseObject<?> getAllIntern(MAInternRequest request) {
@@ -107,6 +111,18 @@ public class MAInternServiceImpl implements MAInternService {
                 .map(subject -> new ResponseObject<>(subject, HttpStatus.OK, "Get category successfully"))
                 .orElseGet(() -> new ResponseObject<>(null, HttpStatus.NOT_FOUND, "Category not found"));
 
+    }
+
+    @Override
+    public ResponseObject<?> uploadFile(MultipartFile file) {
+        try {
+            return new ResponseObject<>(cloudinaryUploadImages.uploadImage(file),
+                    HttpStatus.OK,
+                    "Update file ảnh thành công");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return new ResponseObject<>(null,HttpStatus.INTERNAL_SERVER_ERROR,"Tải file that bai");
+        }
     }
 
 }

@@ -1,5 +1,6 @@
 package intern.server.core.manage.intern.controller;
 
+import intern.server.core.common.base.ResponseObject;
 import intern.server.core.manage.intern.dto.request.MACreateUpdateInternRequest;
 import intern.server.core.manage.intern.dto.request.MAInternRequest;
 import intern.server.core.manage.intern.service.MAInternService;
@@ -8,6 +9,7 @@ import intern.server.utils.Helper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
@@ -39,6 +41,12 @@ public class MAInternController {
     @GetMapping("/detail/{internId}")
     public ResponseEntity<?> getByIdIntern(@PathVariable String internId) {
         return Helper.createResponseEntity(maInternService.getInternById(internId));
+    }
+
+
+    @PostMapping("/upload")
+    public ResponseEntity<?> uploadFile(@RequestBody MultipartFile file) {
+        return Helper.createResponseEntity(maInternService.uploadFile(file));
     }
 
 }

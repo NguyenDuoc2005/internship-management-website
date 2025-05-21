@@ -1,14 +1,12 @@
 package intern.server.infrastructure.constant;
 
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public enum EntityStatus {
+public enum EntityAccountStatus {
     ACTIVE,
-    INACTIVE,
-    UNVERIFIED;
+    INACTIVE;
     public static List<String> getAllStatus() {
         return Arrays.stream(EntityStatus.values())
                 .map(Enum::name)

@@ -23,7 +23,7 @@
         <template v-else-if="column.dataIndex === 'comment'">
           <a-textarea v-model:value="record.comment" auto-size />
         </template>
-
+        
         <!-- Action -->
         <template v-else-if="column.dataIndex === 'action'">
           <a-tag v-if="record.score" color="green">Đã đánh giá</a-tag>
@@ -60,7 +60,7 @@ const fetchEvaluations = async () => {
 const submitAllEvaluations = async () => {
   const payload: MAUpdateEvaluationRequest = {
     evaluations: evaluations.value
-      .filter(e => e.score != null && e.comment?.trim())
+      .filter(e => e.score != null )
       .map(e => ({
         meetingId: meetingId,
         userId: e.userId,
