@@ -40,6 +40,7 @@ export const PREFIX_API_AUTH = `${API_URL}/auth` as string
 
 // ADMIN API
 export const PREFIX_API_ADMIN = `${API_URL}/admin` as string
+export const PREFIX_API_ACCOUNT_MANAGE_ADMIN = `${PREFIX_API_ADMIN}/account-manage` as string
 // ADMIN API
 export const PREFIX_API_MANAGE = `${API_URL}/manage` as string
 export const PREFIX_API_INTERN_MANAGE = `${PREFIX_API_MANAGE}/intern` as string

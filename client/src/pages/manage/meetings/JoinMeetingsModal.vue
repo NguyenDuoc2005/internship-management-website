@@ -38,7 +38,7 @@
 
 <script setup lang="ts">
 import { ref, defineProps, defineEmits, watch } from 'vue'
-import { getAllCheckUserEvaluation, joinMeetings, MAEvaluationResponse, outMeetings } from '../../../services/api/evaluation.api'
+import { getAllCheckUserEvaluation, joinMeetings, MAEvaluationResponse, outMeetings } from '../../../services/api/manage/evaluation.api'
 
 const props = defineProps<{
   open: boolean

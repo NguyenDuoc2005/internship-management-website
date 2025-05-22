@@ -133,7 +133,7 @@ import {
     USER_INFO_STORAGE_KEY,
 } from '@/constants/storagekey'
 import { URL_OAUTH2_GOOGLE_MANAGE, URL_OAUTH2_GOOGLE_MANAGE_REGISTER, URL_OAUTH2_GOOGLE_MEMBER, URL_OAUTH2_GOOGLE_MEMBER_REGISTER } from '@/constants/url'
-import { getAllRole, login, register, RoleResponse } from '@/services/api/auth.api'
+import { getAllRole, login, register, RoleResponse } from '@/services/api/manage/auth.api'
 import { localStorageAction } from '@/utils/storage'
 import { getUserInformation } from '@/utils/token.helper'
 import { onMounted, ref } from 'vue'

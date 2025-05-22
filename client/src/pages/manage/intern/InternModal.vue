@@ -71,7 +71,7 @@
 
 <script setup lang="ts">
 import { ref, watch } from 'vue'
-import { createIntern, getByIdIntern, updateIntern, uploadFile } from '@/services/api/intern.api'
+import { createIntern, getByIdIntern, updateIntern, uploadFile } from '@/services/api/manage/intern.api'
 import { toast } from 'vue3-toastify'
 
 const props = defineProps<{ open: boolean; internId: string | null; title: string }>()

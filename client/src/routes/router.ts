@@ -42,6 +42,11 @@ export const routes: RouteRecordRaw[] = [
         path: `${ROUTES_CONSTANTS.ADMIN.children.ADMIN.path}`,
         name: `${ROUTES_CONSTANTS.ADMIN.children.ADMIN.name}`,
         component: () => import('@/pages/admin/admin.vue')
+      },
+      {
+        path: `${ROUTES_CONSTANTS.ADMIN.children.ACCOUNT_MANAGE.path}`,
+        name: `${ROUTES_CONSTANTS.ADMIN.children.ACCOUNT_MANAGE.name}`,
+        component: () => import('@/pages/admin/account-manage/AccountManage.vue')
       }
     ]
   },

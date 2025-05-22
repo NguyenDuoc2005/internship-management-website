@@ -4,6 +4,8 @@ import intern.server.core.common.base.PageableObject;
 import intern.server.core.common.base.ResponseObject;
 import intern.server.core.manage.intern.dto.request.MACreateUpdateInternRequest;
 import intern.server.core.manage.intern.dto.request.MAInternRequest;
+import intern.server.core.admin.account_manage.repository.ADUserRepository;
+import intern.server.core.admin.account_manage.repository.ADUserRoleRepository;
 import intern.server.core.manage.intern.repository.MARoleRepository;
 import intern.server.core.manage.intern.repository.MAUserRepository;
 import intern.server.core.manage.intern.repository.MAUserRoleRepository;

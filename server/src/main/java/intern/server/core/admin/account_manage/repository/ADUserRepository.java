@@ -1,4 +1,4 @@
-package intern.server.core.manage.intern.repository;
+package intern.server.core.admin.account_manage.repository;
 
 import intern.server.core.manage.intern.dto.request.MAInternRequest;
 import intern.server.core.manage.intern.dto.response.MAInternResponse;
@@ -12,7 +12,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 import java.util.Optional;
 
-public interface MAUserRepository extends UserRepository {
+public interface ADUserRepository extends UserRepository {
     @Query(
             value = """
         SELECT u.id AS id,
@@ -33,12 +33,12 @@ public interface MAUserRepository extends UserRepository {
             (:#{#request.internName} IS NULL OR u.username LIKE CONCAT('%', :#{#request.internName}, '%'))
             AND 
             (:#{#request.internStatus} IS NULL OR u.status = :#{#request.internStatus})
-            AND r.code ='THANH_VIEN'
+            AND r.code ='QUAN_LY'
+            AND u.confirmationStatus = 1
     """
     )
-    Page<MAInternResponse> getAllUsers(Pageable pageable, MAInternRequest request);
+    Page<MAInternResponse> getAllAccount_Manage(Pageable pageable, MAInternRequest request);
 
-    List<User> findAllByEmail(@Size(max = 255) String email);
 
     @Query(
             value = """
@@ -59,5 +59,4 @@ public interface MAUserRepository extends UserRepository {
     )
     Optional<MAInternResponse> getAllUsersById(@Param("id") String id);
 
-    User findUserById(String id);
 }
