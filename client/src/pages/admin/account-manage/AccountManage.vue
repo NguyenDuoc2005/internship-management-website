@@ -1,13 +1,13 @@
 <template>
-    <BreadcrumbDefault label="Quản lý thực tập sinh">
-        <InternFilter
+    <BreadcrumbDefault label="Phê duyệt tài khoản">
+        <AccountManageFilter
             :searchQuery="state.searchQuery"
             @update:searchQuery="updateSearchQuery"
             :searchStatus="state.internStatus"
             @update:searchStatus="updateSearchStatus"
         />
 
-        <InternTable
+        <AccountManageTable
             :searchQuery="state.searchQuery"
             :interns="state.interns"
             :paginationParams="state.paginationParams"
@@ -18,14 +18,6 @@
             @update-status="handleUpdateStatusClick"
         />
     </BreadcrumbDefault>
-
-    <InternModal
-        :open="state.isModalOpen"
-        :internId="state.id"
-        :title="state.id ? 'Cập nhật thực tập sinh' : 'Thêm mới thực tập sinh'"
-        @close="closeModal"
-        @success="fetchInterns"
-    />
 </template>
 
 <script setup lang="ts">
@@ -34,9 +26,6 @@ import { debounce } from 'lodash'
 import { toast } from 'vue3-toastify'
 
 import DivCustom from '@/components/custom/Div/DivCustom.vue'
-import InternFilter from './InternFilter.vue'
-import InternTable from './InternTable.vue'
-import InternModal from './InternModal.vue'
 
 import {
     InternResponse,
@@ -45,6 +34,9 @@ import {
     ParamsGetIntern
 } from '@/services/api/manage/intern.api'
 import BreadcrumbDefault from '@/components/custom/Div/BreadcrumbDefault.vue'
+import AccountManageTable from './AccountManageTable.vue'
+import AccountManageFilter from './AccountManageFilter.vue'
+import { changeStatusAccountManage, getAccountManage } from '@/services/api/admin/account-manage'
 
 const state = reactive({
     searchQuery: '',
@@ -65,7 +57,7 @@ const fetchInterns = async () => {
             internStatus: state.internStatus ?? undefined
         }
 
-        const response = await getAllInterns(params)
+        const response = await getAccountManage(params)
         state.interns = response?.data?.data || []
         state.totalItems = response?.data?.totalElements || 0
         console.log("intern",response.data)
@@ -100,11 +92,11 @@ const handlePageChange = ({ page, pageSize }: { page: number; pageSize?: number 
 
 const handleUpdateStatus = async (id: string) => {
     try {
-        await changeStatusIntern(id)
-        toast.success('Cập nhật trạng thái thành công!')
+        await changeStatusAccountManage(id)
+        toast.success('Phê duyệt tài khoản thành công!')
         fetchInterns()
     } catch (error) {
-        toast.error('Cập nhật trạng thái thất bại!')
+        toast.error('Phê duyệt tài khoản thất bại!')
     }
 }
 

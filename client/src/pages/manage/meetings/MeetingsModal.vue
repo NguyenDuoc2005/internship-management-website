@@ -55,7 +55,7 @@
 import { ref, watch, defineProps, defineEmits } from 'vue'
 import dayjs from 'dayjs'
 import { toast } from 'vue3-toastify'
-import { createMeetings, getMeetingsById, updateMeetings } from '@/services/api/meetings.api';
+import { createMeetings, getMeetingsById, updateMeetings } from '@/services/api/manage/meetings.api';
 
 const props = defineProps<{ open: boolean; meetingId: string | null; title: string }>()
 const emit = defineEmits(['close', 'success'])

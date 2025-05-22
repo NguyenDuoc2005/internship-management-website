@@ -23,8 +23,8 @@ const menuItems = ref([
             fill="currentColor"
           />
         </svg>`,
-  label: 'Quản lý admin',
-  routeName: ROUTES_CONSTANTS.ADMIN.children.ADMIN.name
+  label: 'Phê duyệt tài khoản',
+  routeName: ROUTES_CONSTANTS.ADMIN.children.ACCOUNT_MANAGE.name
 }
 
 ])
@@ -110,15 +110,15 @@ const menuItems = ref([
           <li v-for="(menuItem, index) in menuItems" :key="index">
             <router-link
               :to="{ name: menuItem.routeName }"
-              class="flex items-center gap-4 p-3 rounded-lg hover:bg-gray-100 transition-all duration-200"
-              :class="{ 'bg-gray-100': route.name === menuItem.routeName }"
+              class="flex items-center gap-4 p-3 rounded-lg hover:bg-green-300 transition-all duration-200"
+              :class="{ 'bg-green-400': route.name === menuItem.routeName }"
             >
               <!-- ICON -->
               <span
                 v-html="menuItem.icon"
                 class="w-6 h-6"
                 :class="{
-                  'text-green-500': route.name === menuItem.routeName,
+                  'text-white': route.name === menuItem.routeName,
                   'text-gray-400': route.name !== menuItem.routeName
                 }"
               ></span>
@@ -128,7 +128,7 @@ const menuItems = ref([
                 v-if="!isCollapsed"
                 class="text-sm"
                 :class="{
-                  'text-black font-bold': route.name === menuItem.routeName,
+                  'text-white font-bold': route.name === menuItem.routeName,
                   'text-gray-700 font-extralight ': route.name !== menuItem.routeName
                 }"
               >
@@ -144,10 +144,10 @@ const menuItems = ref([
 
 <style scoped>
 /* Smooth transition for sidebar width */
-/* aside {
+aside {
     transition: transform 0.2s ease-out, width 0.2s ease-out;
     will-change: transform, width, height;
-  } */
+  }
 
 /* Loại bỏ hiệu ứng hover trên logo */
 .logo:hover {

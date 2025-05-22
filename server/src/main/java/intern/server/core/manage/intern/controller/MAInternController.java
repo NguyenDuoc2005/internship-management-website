@@ -1,6 +1,5 @@
 package intern.server.core.manage.intern.controller;
 
-import intern.server.core.common.base.ResponseObject;
 import intern.server.core.manage.intern.dto.request.MACreateUpdateInternRequest;
 import intern.server.core.manage.intern.dto.request.MAInternRequest;
 import intern.server.core.manage.intern.service.MAInternService;

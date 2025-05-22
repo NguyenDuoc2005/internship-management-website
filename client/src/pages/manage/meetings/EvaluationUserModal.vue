@@ -38,7 +38,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
-import { getAllEvaluation, MAEvaluationResponse, MAUpdateEvaluationRequest, updateEvaluation } from '@/services/api/evaluation.api'
+import { getAllEvaluation, MAEvaluationResponse, MAUpdateEvaluationRequest, updateEvaluation } from '@/services/api/manage/evaluation.api'
 import { toast } from 'vue3-toastify'
 
 const route = useRoute()

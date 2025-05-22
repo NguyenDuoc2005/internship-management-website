@@ -27,6 +27,10 @@ export const ROUTES_CONSTANTS = {
         path: 'admin',
         name: 'admin'
       },
+      ACCOUNT_MANAGE: {
+        path: 'account-manage',
+        name: 'account-manage'
+      },
 
     }
   },

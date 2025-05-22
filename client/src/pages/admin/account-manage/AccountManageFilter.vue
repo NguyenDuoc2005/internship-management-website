@@ -6,7 +6,7 @@
         <div class="flex items-center space-x-2">
             <a-input 
                 v-model:value="localSearchQuery" 
-                placeholder="Nhập tên thực tập sinh..." 
+                placeholder="Nhập tên quản lý..." 
                 class="w-8/12" 
             />
             <a-select

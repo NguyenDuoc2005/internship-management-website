@@ -2,6 +2,7 @@ package intern.server.core.manage.meetings.service.impl;
 
 import intern.server.core.common.base.PageableObject;
 import intern.server.core.common.base.ResponseObject;
+import intern.server.core.admin.account_manage.repository.ADUserRepository;
 import intern.server.core.manage.intern.repository.MAUserRepository;
 import intern.server.core.manage.meetings.dto.request.MAEvaluationRequest;
 import intern.server.core.manage.meetings.dto.request.MAJoinOutMeetingsRequest;

@@ -131,10 +131,9 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                             oAuth2UserInfo.getEmail(),EntityStatus.ACTIVE, EntityAccountStatus.INACTIVE);
 
             if(userUNVERIFIED.isPresent()){
-                CookieUtils.addCookie(httpServletResponse, CookieConstant.ACCOUNT_EXIST, CookieConstant.ACCOUNT_EXIST);
-                throw new OAuth2AuthenticationProcessingException(CookieConstant.ACCOUNT_EXIST);
+                CookieUtils.addCookie(httpServletResponse, CookieConstant.Unverified_Account, CookieConstant.Unverified_Account);
+                throw new OAuth2AuthenticationProcessingException(CookieConstant.Unverified_Account);
             }
-
             Optional<User> userFind = userAuthRepository.findByEmailAndStatus(oAuth2UserInfo.getEmail(),EntityStatus.ACTIVE);
 
             if(userFind.isPresent()){
@@ -155,6 +154,18 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             userRole.setRole(roleFind);
             userRole.setUser(user);
             userRoleAuthRepository.save(userRole);
+
+        }
+        if(register){
+            // dang ky
+            Optional<User> userUNVERIFIED = userAuthRepository.
+                    findByEmailAndStatusAndConfirmationStatus(
+                            oAuth2UserInfo.getEmail(),EntityStatus.ACTIVE, EntityAccountStatus.INACTIVE);
+
+            if(userUNVERIFIED.isPresent()){
+                CookieUtils.addCookie(httpServletResponse, CookieConstant.Unverified_Account, CookieConstant.Unverified_Account);
+                throw new OAuth2AuthenticationProcessingException(CookieConstant.Unverified_Account);
+            }
         }
         // đã đăng ky cho xac nhan
         Optional<User> userUNVERIFIED = userAuthRepository.
@@ -163,7 +174,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         if(userUNVERIFIED.isPresent()){
             CookieUtils.addCookie(httpServletResponse, CookieConstant.Registered_Awaiting_Confirmation, CookieConstant.Registered_Awaiting_Confirmation);
-            throw new OAuth2AuthenticationProcessingException(CookieConstant.ACCOUNT_EXIST);
+            throw new OAuth2AuthenticationProcessingException(CookieConstant.Registered_Awaiting_Confirmation);
         }
 
         Optional<User> userOptional = userAuthRepository.findByEmailAndStatus(oAuth2UserInfo.getEmail(), EntityStatus.ACTIVE);

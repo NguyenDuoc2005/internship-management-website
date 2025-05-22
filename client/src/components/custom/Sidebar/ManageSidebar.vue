@@ -65,25 +65,35 @@ const menuItems = ref([
     </div>
 
     <!-- SIDEBAR MENU -->
-    <div class="px-4 py-2 ">
+      <!-- SIDEBAR MENU -->
+    <div class="px-4 py-2">
       <nav>
         <ul>
           <li v-for="(menuItem, index) in menuItems" :key="index">
-            <router-link :to="{ name: menuItem.routeName }"
-              class="flex items-center gap-4 p-3 rounded-lg hover:bg-gray-100 transition-all duration-200"
-              :class="{ 'bg-gray-100': route.name === menuItem.routeName }">
-
+            <router-link
+              :to="{ name: menuItem.routeName }"
+              class="flex items-center gap-4 p-3 rounded-lg hover:bg-green-300 transition-all duration-200"
+              :class="{ 'bg-green-400': route.name === menuItem.routeName }"
+            >
               <!-- ICON -->
-              <span v-html="menuItem.icon" class="w-6 h-6" :class="{
-                'text-green-500': route.name === menuItem.routeName,
-                'text-gray-400': route.name !== menuItem.routeName
-              }"></span>
+              <span
+                v-html="menuItem.icon"
+                class="w-6 h-6"
+                :class="{
+                  'text-white': route.name === menuItem.routeName,
+                  'text-gray-400': route.name !== menuItem.routeName
+                }"
+              ></span>
 
               <!-- LABEL -->
-              <span v-if="!isCollapsed" class="text-sm" :class="{
-                'text-black font-bold': route.name === menuItem.routeName,
-                'text-gray-700 font-normal': route.name !== menuItem.routeName
-              }">
+              <span
+                v-if="!isCollapsed"
+                class="text-sm"
+                :class="{
+                  'text-white font-bold': route.name === menuItem.routeName,
+                  'text-gray-700 font-extralight ': route.name !== menuItem.routeName
+                }"
+              >
                 {{ menuItem.label }}
               </span>
             </router-link>

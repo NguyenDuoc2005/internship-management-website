@@ -32,6 +32,9 @@ public final class MappingConstants {
 
     // API MEMBER
     public static final String API_MEMBER_MYPROJECT = API_MEMBER_PREFIX + "";
+    // admin
+
+    public static final String API_ADMIN_ACCOUNT_MANAGE = API_ADMIN_PREFIX + "/account-manage";
     //manage
     public static final String API_MANAGE_INTERN = API_MANAGE_PREFIX + "/intern";
     public static final String API_MANAGE_MEETINGS = API_MANAGE_PREFIX + "/meetings";

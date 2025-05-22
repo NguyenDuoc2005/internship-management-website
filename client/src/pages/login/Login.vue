@@ -106,14 +106,14 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { login } from '@/services/api/auth.api'
+import { login } from '@/services/api/manage/auth.api'
 import { getUserInformation } from '@/utils/token.helper'
 import { cookieStorageAction, localStorageAction } from '@/utils/storage'
 import { ACCESS_TOKEN_STORAGE_KEY, REFRESH_TOKEN_STORAGE_KEY, USER_INFO_STORAGE_KEY } from '@/constants/storagekey'
 import { ROUTES_CONSTANTS } from '@/constants/path'
 import { ROLES } from '@/constants/roles'
 import { URL_OAUTH2_GOOGLE_ADMIN, URL_OAUTH2_GOOGLE_MANAGE, URL_OAUTH2_GOOGLE_MEMBER } from '@/constants/url'
-import { ACCOUNT_EXIST, ACCOUNT_EXIST_MESSAGE, ACCOUNT_NOT_EXIST, ACCOUNT_NOT_EXIST_MESSAGE } from '@/constants/cookie.constants'
+import { ACCOUNT_EXIST, ACCOUNT_EXIST_MESSAGE, ACCOUNT_NOT_EXIST, ACCOUNT_NOT_EXIST_MESSAGE, Registered_Awaiting_Confirmation, Registered_Awaiting_Confirmation_MESSAGE, Unverified_Account, Unverified_Account_MESSAGE } from '@/constants/cookie.constants'
 import { toast } from 'vue3-toastify'
 
 const router = useRouter()
@@ -177,6 +177,10 @@ onMounted(() => {
 
   const accountExistError = cookieStorageAction.get(ACCOUNT_EXIST)
 
+  const unverified_Account = cookieStorageAction.get(Unverified_Account)
+
+  const registered_Awaiting_Confirmation = cookieStorageAction.get(Registered_Awaiting_Confirmation)
+
   if (accountNotExistError) {
     toast.error(ACCOUNT_NOT_EXIST_MESSAGE)
     cookieStorageAction.remove(ACCOUNT_NOT_EXIST)
@@ -184,6 +188,14 @@ onMounted(() => {
   if (accountExistError) {
     toast.error(ACCOUNT_EXIST_MESSAGE)
     cookieStorageAction.remove(ACCOUNT_EXIST)
+  }
+  if (unverified_Account) {
+    toast.warn(Unverified_Account_MESSAGE)
+    cookieStorageAction.remove(Unverified_Account)
+  }
+  if (registered_Awaiting_Confirmation) {
+    toast.info(Registered_Awaiting_Confirmation_MESSAGE)
+    cookieStorageAction.remove(Registered_Awaiting_Confirmation)
   }
 })
 </script>

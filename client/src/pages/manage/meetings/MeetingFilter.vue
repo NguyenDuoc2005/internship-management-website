@@ -1,5 +1,8 @@
 <template>
     <DivCustom label="Bộ lọc">
+        <template #icon>
+        <FilterOutlined />
+      </template>
         <div class="flex items-center space-x-2">
             <a-input 
                 v-model:value="localSearchQuery" 
@@ -24,7 +27,7 @@
 <script setup lang="ts">
 import { ref, watch, defineProps, defineEmits } from 'vue'
 import DivCustom from '@/components/custom/Div/DivCustom.vue'
-import { ReloadOutlined } from '@ant-design/icons-vue'
+import { FilterOutlined, ReloadOutlined } from '@ant-design/icons-vue'
 
 const props = defineProps<{
     searchQuery: string
