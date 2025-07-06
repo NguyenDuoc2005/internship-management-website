@@ -2,13 +2,19 @@ package intern.server.infrastructure.security.oauth2;
 
 import intern.server.entity.Role;
 import intern.server.entity.UserRole;
-import intern.server.infrastructure.constant.EntityAccountStatus;
+import intern.server.infrastructure.constant.*;
+import intern.server.infrastructure.security.oauth2.user.GithubOAuth2UserInfo;
 import intern.server.infrastructure.security.repository.UserRoleAuthRepository;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -17,9 +23,6 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import intern.server.entity.User;
-import intern.server.infrastructure.constant.CookieConstant;
-import intern.server.infrastructure.constant.EntityStatus;
-import intern.server.infrastructure.constant.OAuth2Constant;
 import intern.server.infrastructure.exception.OAuth2AuthenticationProcessingException;
 import intern.server.infrastructure.security.repository.RoleAuthRepository;
 import intern.server.infrastructure.security.repository.UserAuthRepository;
@@ -27,8 +30,10 @@ import intern.server.infrastructure.security.oauth2.user.OAuth2UserInfo;
 import intern.server.infrastructure.security.oauth2.user.OAuth2UserInfoFactory;
 import intern.server.infrastructure.security.user.UserPrincipal;
 import intern.server.utils.CookieUtils;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -65,6 +70,17 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                         oAuth2UserRequest.getClientRegistration().getRegistrationId(),
                         oAuth2User.getAttributes()
                 );
+
+        if (AuthProvider.github.toString().equals(oAuth2UserRequest.getClientRegistration().getRegistrationId())
+                && (oAuth2UserInfo.getEmail() == null || oAuth2UserInfo.getEmail().isBlank())) {
+
+            String email = fetchGithubEmail(oAuth2UserRequest);
+
+            if (email != null) {
+                oAuth2UserInfo = new GithubOAuth2UserInfo(oAuth2User.getAttributes(), email);
+            }
+        }
+
 
         if (oAuth2UserInfo.getEmail() == null || oAuth2UserInfo.getEmail().isBlank()) {
             CookieUtils.addCookie(httpServletResponse, CookieConstant.ACCOUNT_NOT_EXIST, CookieConstant.ACCOUNT_NOT_EXIST);
@@ -244,5 +260,34 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             throw new OAuth2AuthenticationProcessingException(CookieConstant.ACCOUNT_NOT_EXIST);
         }
     }
+
+    private String fetchGithubEmail(OAuth2UserRequest userRequest) {
+        String token = userRequest.getAccessToken().getTokenValue();
+        RestTemplate restTemplate = new RestTemplate();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "token " + token);
+        HttpEntity<String> entity = new HttpEntity<>("", headers);
+
+        ResponseEntity<List<Map<String, Object>>> response = restTemplate.exchange(
+                "https://api.github.com/user/emails",
+                HttpMethod.GET,
+                entity,
+                new ParameterizedTypeReference<List<Map<String, Object>>>() {});
+
+        List<Map<String, Object>> emails = response.getBody();
+
+        if (emails != null) {
+            for (Map<String, Object> e : emails) {
+                Boolean primary = (Boolean) e.get("primary");
+                Boolean verified = (Boolean) e.get("verified");
+                if (Boolean.TRUE.equals(primary) && Boolean.TRUE.equals(verified)) {
+                    return (String) e.get("email");
+                }
+            }
+        }
+        return null;
+    }
+
 
 }

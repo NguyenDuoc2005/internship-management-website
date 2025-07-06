@@ -65,19 +65,52 @@
                         </select>
                     </div>
 
+                    <!-- Nút Đăng ký -->
                     <button type="submit"
-                        class="w-full bg-gradient-to-r from-pink-500 to-green-500 hover:from-green-600 hover:to-pink-600 text-white py-3 rounded-lg font-semibold text-base transition shadow">
+                        class="w-full bg-gradient-to-r from-pink-500 to-green-500 hover:from-green-600 hover:to-pink-600 text-white py-2 rounded-lg font-semibold text-sm transition shadow">
                         Đăng ký
                     </button>
 
+                    <!-- Nút Đăng ký với Google -->
                     <button type="button" @click="openRoleModal"
-                        class="w-full bg-white border border-gray-300 hover:bg-gray-100 text-gray-700 py-3 rounded-lg font-semibold text-base transition flex items-center justify-center gap-2 shadow-sm">
-                        <svg class="w-5 h-5" viewBox="0 0 24 24">
-                            <path fill="currentColor"
-                                d="M21.35 11.1H12v2.8h5.35c-.23 1.27-1.34 3.7-5.35 3.7-3.22 0-5.85-2.63-5.85-5.85S8.78 5.9 12 5.9c1.84 0 3.08.79 3.79 1.47l2.6-2.52C17.22 3.28 14.83 2.3 12 2.3 6.78 2.3 2.6 6.48 2.6 11.7S6.78 21.1 12 21.1c6.29 0 10.45-4.42 10.45-10.65 0-.71-.1-1.24-.22-1.35z" />
+                        class="w-full bg-white border border-gray-200 hover:bg-gray-50 text-gray-800 py-2 rounded-lg font-medium text-sm transition flex items-center justify-center gap-2 shadow-sm mt-2">
+                        <svg class="w-4 h-4" viewBox="0 0 533.5 544.3" xmlns="http://www.w3.org/2000/svg">
+                            <path fill="#4285F4"
+                                d="M533.5 278.4c0-17.4-1.6-34.1-4.7-50.4H272v95.5h146.9c-6.3 34-25.1 62.9-53.7 82v68h86.7c50.7-46.7 79.6-115.4 79.6-194.9z" />
+                            <path fill="#34A853"
+                                d="M272 544.3c72.8 0 134-24.1 178.6-65.4l-86.7-68c-24.1 16.2-55 25.7-91.9 25.7-70.6 0-130.5-47.7-152-111.5H33.1v69.8C77.5 484.3 168.8 544.3 272 544.3z" />
+                            <path fill="#FBBC05"
+                                d="M120 321.1c-4.9-14.7-7.7-30.5-7.7-46.6s2.8-31.9 7.7-46.6v-69.8H33.1C12.1 214.3 0 243.7 0 273.9c0 30.1 12.1 59.6 33.1 83.5l86.9-69.8z" />
+                            <path fill="#EA4335"
+                                d="M272 107.7c39.7 0 75.2 13.7 103.3 40.7l77.4-77.4C396 24.1 335.1 0 272 0 168.8 0 77.5 60 33.1 154.8l86.9 69.8c21.5-63.7 81.4-111.5 152-111.5z" />
                         </svg>
                         <span>Đăng ký với Google</span>
                     </button>
+
+                    <!-- Nút Đăng ký với Github -->
+                    <button type="button" @click="openRoleModalGithub"
+                        class="w-full bg-white border border-gray-200 hover:bg-gray-50 text-gray-800 py-2 rounded-lg font-medium text-sm transition flex items-center justify-center gap-2 shadow-sm mt-2">
+                        <svg class="w-4 h-4 text-gray-800" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 
+            3.438 9.8 8.205 11.387.6.113.82-.258.82-.577 
+            0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 
+            18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 
+            1.205.084 1.84 1.236 1.84 1.236 1.07 1.835 2.809 
+            1.304 3.495.997.108-.776.418-1.305.762-1.605-2.665-.3-5.466-1.334-5.466-5.93 
+            0-1.31.468-2.38 1.236-3.22-.124-.303-.536-1.523.117-3.176 
+            0 0 1.008-.322 3.3 1.23a11.48 11.48 0 0 1 3-.404 
+            11.48 11.48 0 0 1 3 .404c2.29-1.552 3.297-1.23 
+            3.297-1.23.653 1.653.241 2.873.118 
+            3.176.77.84 1.235 1.91 1.235 3.22 
+            0 4.61-2.803 5.625-5.475 5.921.43.37.823 1.102.823 
+            2.222 0 1.606-.015 2.896-.015 3.286 
+            0 .32.216.694.825.576C20.565 22.092 
+            24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
+                        </svg>
+                        <span>Đăng ký với Github</span>
+                    </button>
+
+
                 </form>
 
                 <div class="text-center mt-6 text-xs">
@@ -88,8 +121,8 @@
             </div>
         </div>
 
-        <!-- Modal chọn vai trò giữ nguyên như trước -->
-        <a-modal v-model:open="showRoleModal" title="Chọn vai trò" :footer="null" centered :width="360"
+        <!-- Modal  đăng ký với google  -->
+        <a-modal v-model:open="showRoleModalGoogle" title="Chọn vai trò" :footer="null" centered :width="360"
             bodyStyle="padding: 1.5rem 2rem;">
             <div class="flex flex-col items-center space-y-6">
                 <p class="text-center text-gray-700 text-sm font-medium">
@@ -121,6 +154,40 @@
                 </div>
             </div>
         </a-modal>
+        <!-- Modal đăng ký với github  -->
+        <a-modal v-model:open="showRoleModalGithub" title="Chọn vai trò" :footer="null" centered :width="360"
+            bodyStyle="padding: 1.5rem 2rem;">
+            <div class="flex flex-col items-center space-y-6">
+                <p class="text-center text-gray-700 text-sm font-medium">
+                    Vui lòng chọn vai trò để tiếp tục đăng ký bằng Github
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4 w-full">
+                    <button :class="[
+                        'flex flex-col items-center justify-center flex-1 min-w-[110px] h-20 rounded-lg border cursor-pointer transition-shadow',
+                        selectedRole === 'MANAGE' ? 'border-green-500 shadow-md bg-green-50' : 'border-gray-300 hover:shadow-sm hover:bg-green-50',
+                    ]" @click="selectedRole = 'MANAGE'" type="button">
+                        <span class="text-xl mb-1">👨‍💼</span>
+                        <span class="font-semibold text-sm text-center">Quản lý</span>
+                    </button>
+
+                    <button :class="[
+                        'flex flex-col items-center justify-center flex-1 min-w-[110px] h-20 rounded-lg border cursor-pointer transition-shadow',
+                        selectedRole === 'MEMBER' ? 'border-green-500 shadow-md bg-green-50' : 'border-gray-300 hover:shadow-sm hover:bg-green-50',
+                    ]" @click="selectedRole = 'MEMBER'" type="button">
+                        <span class="text-xl mb-1">👤</span>
+                        <span class="font-semibold text-sm text-center">Thành viên</span>
+                    </button>
+                </div>
+
+                <div class="flex justify-end gap-3 w-full">
+                    <a-button @click="cancelRoleSelection">Hủy</a-button>
+                    <a-button type="primary" :disabled="!selectedRole" @click="confirmRoleSelectionGithub">
+                        Xác nhận
+                    </a-button>
+                </div>
+            </div>
+        </a-modal>
+
     </div>
 </template>
 
@@ -132,7 +199,7 @@ import {
     REFRESH_TOKEN_STORAGE_KEY,
     USER_INFO_STORAGE_KEY,
 } from '@/constants/storagekey'
-import { URL_OAUTH2_GOOGLE_MANAGE, URL_OAUTH2_GOOGLE_MANAGE_REGISTER, URL_OAUTH2_GOOGLE_MEMBER, URL_OAUTH2_GOOGLE_MEMBER_REGISTER } from '@/constants/url'
+import { URL_OAUTH2_GITHUB_MANAGE_REGISTER, URL_OAUTH2_GITHUB_MEMBER_REGISTER, URL_OAUTH2_GOOGLE_MANAGE, URL_OAUTH2_GOOGLE_MANAGE_REGISTER, URL_OAUTH2_GOOGLE_MEMBER, URL_OAUTH2_GOOGLE_MEMBER_REGISTER } from '@/constants/url'
 import { getAllRole, login, register, RoleResponse } from '@/services/api/manage/auth.api'
 import { localStorageAction } from '@/utils/storage'
 import { getUserInformation } from '@/utils/token.helper'
@@ -150,7 +217,8 @@ const allRole = ref<RoleResponse[]>([])
 const confirmPasswordError = ref('')
 
 // Modal và chọn vai trò Google OAuth
-const showRoleModal = ref(false)
+const showRoleModalGoogle = ref(false)
+const showRoleModalGithub = ref(false)
 const selectedRole = ref('')
 
 const handleRegister = async () => {
@@ -205,23 +273,37 @@ onMounted(fetchRole)
 
 // Mở modal khi nhấn nút Đăng ký bằng Google
 const openRoleModal = () => {
-    showRoleModal.value = true
+    showRoleModalGoogle.value = true
+}
+const openRoleModalGithub = () => {
+    showRoleModalGithub.value = true
 }
 
 function cancelRoleSelection() {
-    showRoleModal.value = false
+    showRoleModalGoogle.value = false
+      showRoleModalGithub.value = false
     selectedRole.value = ''
 }
 
 function confirmRoleSelection() {
     if (!selectedRole.value) return
 
-    showRoleModal.value = false
+    showRoleModalGoogle.value = false
 
     if (selectedRole.value === 'MANAGE') {
         window.location.href = URL_OAUTH2_GOOGLE_MANAGE_REGISTER()
     } else if (selectedRole.value === 'MEMBER') {
         window.location.href = URL_OAUTH2_GOOGLE_MEMBER_REGISTER()
+    }
+}
+function confirmRoleSelectionGithub() {
+    if (!selectedRole.value) return
+    showRoleModalGithub.value = false
+
+    if (selectedRole.value === 'MANAGE') {
+        window.location.href = URL_OAUTH2_GITHUB_MANAGE_REGISTER()
+    } else if (selectedRole.value === 'MEMBER') {
+        window.location.href = URL_OAUTH2_GITHUB_MEMBER_REGISTER()
     }
 }
 </script>

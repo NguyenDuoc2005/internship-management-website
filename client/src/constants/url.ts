@@ -20,13 +20,23 @@ export const SCREEN_ROLE_MANAGE = `&screen=${ROLES.MANAGE}`
 export const SCREEN_ROLE_MEMBER = `&screen=${ROLES.MEMBER}`
 export const REGISTER = `&register=true`
 export const NOT_REGISTER = `&register=false`
+// đăng nhập với google 
 export const URL_OAUTH2_GOOGLE_ADMIN = () =>
   `${DOMAIN_BACKEND}/oauth2/authorize/google?redirect_uri=${URL_FRONTEND}${SCREEN_ROLE_ADMIN}${NOT_REGISTER}` as string
 export const URL_OAUTH2_GOOGLE_MANAGE = () =>
   `${DOMAIN_BACKEND}/oauth2/authorize/google?redirect_uri=${URL_FRONTEND}${SCREEN_ROLE_MANAGE}${NOT_REGISTER}` as string
 export const URL_OAUTH2_GOOGLE_MEMBER = () =>
   `${DOMAIN_BACKEND}/oauth2/authorize/google?redirect_uri=${URL_FRONTEND}${SCREEN_ROLE_MEMBER}${NOT_REGISTER}` as string
-// Register google 
+// đăng nhập với github 
+export const URL_OAUTH2_GITHUB_ADMIN = () =>
+  `${DOMAIN_BACKEND}/oauth2/authorize/github?redirect_uri=${URL_FRONTEND}${SCREEN_ROLE_ADMIN}${NOT_REGISTER}` as string
+export const URL_OAUTH2_GITHUB_MANAGE = () =>
+  `${DOMAIN_BACKEND}/oauth2/authorize/github?redirect_uri=${URL_FRONTEND}${SCREEN_ROLE_MANAGE}${NOT_REGISTER}` as string
+export const URL_OAUTH2_GITHUB_MEMBER = () =>
+  `${DOMAIN_BACKEND}/oauth2/authorize/github?redirect_uri=${URL_FRONTEND}${SCREEN_ROLE_MEMBER}${NOT_REGISTER}` as string
+
+
+// đăng ký google 
 export const URL_OAUTH2_GOOGLE_ADMIN_REGISTER = () =>
   `${DOMAIN_BACKEND}/oauth2/authorize/google?redirect_uri=${URL_FRONTEND}${SCREEN_ROLE_ADMIN}${REGISTER}` as string
 export const URL_OAUTH2_GOOGLE_MANAGE_REGISTER = () =>
@@ -34,6 +44,14 @@ export const URL_OAUTH2_GOOGLE_MANAGE_REGISTER = () =>
 export const URL_OAUTH2_GOOGLE_MEMBER_REGISTER = () =>
   `${DOMAIN_BACKEND}/oauth2/authorize/google?redirect_uri=${URL_FRONTEND}${SCREEN_ROLE_MEMBER}${REGISTER}` as string
 export const API_URL = `${VITE_BASE_URL_SERVER}/api/v1` as string
+
+// đăng ký github 
+export const URL_OAUTH2_GITHUB_ADMIN_REGISTER = () =>
+  `${DOMAIN_BACKEND}/oauth2/authorize/github?redirect_uri=${URL_FRONTEND}${SCREEN_ROLE_ADMIN}${REGISTER}` as string
+export const URL_OAUTH2_GITHUB_MANAGE_REGISTER = () =>
+  `${DOMAIN_BACKEND}/oauth2/authorize/github?redirect_uri=${URL_FRONTEND}${SCREEN_ROLE_MANAGE}${REGISTER}` as string
+export const URL_OAUTH2_GITHUB_MEMBER_REGISTER = () =>
+  `${DOMAIN_BACKEND}/oauth2/authorize/github?redirect_uri=${URL_FRONTEND}${SCREEN_ROLE_MEMBER}${REGISTER}` as string
 
 // AUTH API
 export const PREFIX_API_AUTH = `${API_URL}/auth` as string

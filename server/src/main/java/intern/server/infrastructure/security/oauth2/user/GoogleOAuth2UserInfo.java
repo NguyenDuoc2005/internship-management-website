@@ -1,10 +1,11 @@
 package intern.server.infrastructure.security.oauth2.user;
 
 import java.util.Map;
+import java.util.logging.Logger;
 
 public class GoogleOAuth2UserInfo extends OAuth2UserInfo {
 
-//    private static final Logger LOGGER = Logger.getLogger(GoogleOAuth2UserInfo.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(GoogleOAuth2UserInfo.class.getName());
 
     public GoogleOAuth2UserInfo(Map<String, Object> attributes) {
         super(attributes);

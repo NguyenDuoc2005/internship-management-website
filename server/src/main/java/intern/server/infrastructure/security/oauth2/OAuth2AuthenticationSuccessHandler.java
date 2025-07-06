@@ -43,11 +43,14 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
             HttpServletResponse response,
             Authentication authentication
     ) throws IOException {
+
         String targetUrl = determineTargetUrl(request, response, authentication);
+
         if (response.isCommitted()) {
             logger.debug("Response has already been committed. Unable to redirect to " + targetUrl);
             return;
         }
+
         clearAuthenticationAttributes(request, response);
         getRedirectStrategy().sendRedirect(request, response, targetUrl);
     }
@@ -92,4 +95,5 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     private String buildSuccessUrl(String targetUrl, String token) throws MalformedURLException, URISyntaxException {
         return targetUrl + "?state=" + token;
     }
+
 }
